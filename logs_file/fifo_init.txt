@@ -1,0 +1,638 @@
+# Reading pref.tcl
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 win64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# do rom_test_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# ** Warning: (vdel-134) Unable to remove locked optimized design "_opt".  Locker is HP@WINJIAN.
+# vlib rtl_work
+# ** Warning: (vlib-34) Library already exists at "rtl_work".
+# Errors: 0, Warnings: 1
+# vmap work rtl_work
+# Questa Altera Starter FPGA Edition-64 vmap 2025.2 Lib Mapping Utility 2025.05 May 31 2025
+# vmap work rtl_work 
+# ** Note: (vmap-220) 'c:/altera_lite/25.1std/questa_fse/win64/../modelsim.ini' is used as the ini file.
+# Copying c:/altera_lite/25.1std/questa_fse/win64/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog  -work work +incdir+C:/Users/HP/Desktop/ROM_test {C:/Users/HP/Desktop/ROM_test/rom.v}
+# Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+# Start time: 22:59:52 on Apr 23,2026
+# vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/ROM_test" C:/Users/HP/Desktop/ROM_test/rom.v 
+# ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
+# -- Compiling module rom
+# 
+# Top level modules:
+# 	rom
+# End time: 22:59:52 on Apr 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog  -work work +incdir+C:/Users/HP/Desktop/ROM_test {C:/Users/HP/Desktop/ROM_test/fifo.v}
+# Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+# Start time: 22:59:52 on Apr 23,2026
+# vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/ROM_test" C:/Users/HP/Desktop/ROM_test/fifo.v 
+# ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
+# -- Compiling module fifo
+# 
+# Top level modules:
+# 	fifo
+# End time: 22:59:52 on Apr 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog  -work work +incdir+C:/Users/HP/Desktop/ROM_test {C:/Users/HP/Desktop/ROM_test/fifo_rom_v2.v}
+# Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+# Start time: 22:59:52 on Apr 23,2026
+# vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/ROM_test" C:/Users/HP/Desktop/ROM_test/fifo_rom_v2.v 
+# ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
+# -- Compiling module fifo_rom_v2
+# ** Warning: C:/Users/HP/Desktop/ROM_test/fifo_rom_v2.v(16): (vlog-13562) Size of the numeric literal '4' is bigger than the specified number of bits '2'. 
+# ** Warning: C:/Users/HP/Desktop/ROM_test/fifo_rom_v2.v(16): (vlog-13562) Size of the numeric literal '5' is bigger than the specified number of bits '2'. 
+# ** Warning: C:/Users/HP/Desktop/ROM_test/fifo_rom_v2.v(16): (vlog-13562) Size of the numeric literal '6' is bigger than the specified number of bits '2'. 
+# ** Warning: C:/Users/HP/Desktop/ROM_test/fifo_rom_v2.v(16): (vlog-13562) Size of the numeric literal '7' is bigger than the specified number of bits '2'. 
+# 
+# Top level modules:
+# 	fifo_rom_v2
+# End time: 22:59:52 on Apr 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 4
+# 
+# vlog  -work work +incdir+C:/Users/HP/Desktop/ROM_test {C:/Users/HP/Desktop/ROM_test/rom_test.v}
+# Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+# Start time: 22:59:52 on Apr 23,2026
+# vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/ROM_test" C:/Users/HP/Desktop/ROM_test/rom_test.v 
+# ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
+# -- Compiling module rom_test
+# 
+# Top level modules:
+# 	rom_test
+# End time: 22:59:53 on Apr 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L rtl_work -L work -voptargs="+acc"  rom_test
+# ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L rtl_work -L work -voptargs=""+acc"" rom_test 
+# Start time: 22:59:53 on Apr 23,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
+# ** Note: (vopt-143) Recognized 1 FSM in module "fifo_rom_v2(fast)".
+# ** Warning: C:/Users/HP/Desktop/ROM_test/rom_test.v(11): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 10, found 9.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=2.
+# Loading work.rom_test(fast)
+# Loading work.fifo_rom_v2(fast)
+# Loading work.rom(fast)
+# Loading altera_mf_ver.altsyncram(fast)
+# Loading altera_mf_ver.altsyncram_body(fast)
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES(fast)
+# Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION(fast)
+# Loading work.fifo(fast)
+# Loading altera_mf_ver.scfifo(fast)
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES(fast__1)
+# 
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+# ** Note: $stop    : C:/Users/HP/Desktop/ROM_test/rom_test.v(37)
+#    Time: 0 ps  Iteration: 0  Instance: /rom_test
+# Break in Module rom_test at C:/Users/HP/Desktop/ROM_test/rom_test.v line 37
+add wave -expand wrrow2
+add wave -expand rdrow2
+add wave -expand state next_state addr
+delete wave rom_test/addr
+delete wave /rom_test/addr
+add wave /rom_test/dut/fullrow1 /rom_test/dut/emptyrow1
+run -continue
+#      0: a1
+# 
+#      1: a1
+# 
+#      2: 9d
+# 
+#      3: a1
+# 
+#      4: a1
+# 
+#      5: 9f
+# 
+#      6: a3
+# 
+#      7: 9b
+# 
+#      8: 9b
+# 
+#      9: a1
+# 
+#     10: 00
+# 
+#     11: 9d
+# 
+#     12: 9d
+# 
+#     13: 97
+# 
+#     14: 99
+# 
+#     15: 9b
+# 
+#     16: 9d
+# 
+#     17: 9f
+# 
+#     18: a7
+# 
+#     19: a5
+# 
+#     20: a5
+# 
+#     21: ab
+# 
+#     22: af
+# 
+#     23: ff
+# 
+#     24: ab
+# 
+#     25: af
+# 
+#     26: a7
+# 
+#     27: a1
+# 
+#     28: 93
+# 
+#     29: 8d
+# 
+#     30: 76
+# 
+#     31: 6a
+# 
+#     32: 60
+# 
+#     33: 5c
+# 
+#     34: 60
+# 
+#     35: 00
+# 
+#     36: 64
+# 
+#     37: 68
+# 
+#     38: 68
+# 
+#     39: 6e
+# 
+#     40: 6c
+# 
+#     41: 68
+# 
+#     42: 6c
+# 
+#     43: 6c
+# 
+#     44: 6a
+# 
+#     45: 6c
+# 
+#     46: 6c
+# 
+#     47: 6c
+# 
+#     48: 6e
+# 
+#     49: 6c
+# 
+#     50: 6a
+# 
+#     51: 6c
+# 
+#     52: 6e
+# 
+#     53: 6e
+# 
+#     54: 76
+# 
+#     55: 76
+# 
+#     56: 7a
+# 
+#     57: 7a
+# 
+#     58: 7a
+# 
+#     59: 7c
+# 
+#     60: 81
+# 
+#     61: 7a
+# 
+#     62: 7e
+# 
+#     63: 83
+# 
+#     64: 81
+# 
+#     65: 81
+# 
+#     66: 83
+# 
+#     67: 7e
+# 
+#     68: 87
+# 
+#     69: 85
+# 
+#     70: 83
+# 
+#     71: 81
+# 
+#     72: 7e
+# 
+#     73: 7e
+# 
+#     74: 81
+# 
+#     75: 83
+# 
+#     76: 83
+# 
+#     77: 81
+# 
+#     78: 85
+# 
+#     79: 85
+# 
+#     80: 85
+# 
+#     81: 87
+# 
+#     82: 85
+# 
+#     83: 87
+# 
+#     84: 87
+# 
+#     85: 87
+# 
+#     86: 83
+# 
+#     87: 85
+# 
+#     88: 85
+# 
+#     89: 85
+# 
+#     90: 85
+# 
+#     91: 83
+# 
+#     92: 87
+# 
+#     93: 87
+# 
+#     94: 83
+# 
+#     95: 83
+# 
+#     96: 87
+# 
+#     97: 87
+# 
+#     98: 89
+# 
+#     99: 89
+# 
+#    100: 00
+# 
+#    101: 87
+# 
+#    102: 87
+# 
+#    103: 85
+# 
+#    104: 83
+# 
+#    105: 8b
+# 
+#    106: 83
+# 
+#    107: 83
+# 
+#    108: 7e
+# 
+#    109: 83
+# 
+#    110: 83
+# 
+#    111: 83
+# 
+#    112: 81
+# 
+#    113: 85
+# 
+#    114: 87
+# 
+#    115: 83
+# 
+#    116: 83
+# 
+#    117: 85
+# 
+#    118: 83
+# 
+#    119: 85
+# 
+#    120: 85
+# 
+#    121: 87
+# 
+#    122: 87
+# 
+#    123: ff
+# 
+#    124: 83
+# 
+#    125: 85
+# 
+#    126: 81
+# 
+#    127: 89
+# 
+#    128: 8d
+# 
+#    129: 83
+# 
+#    130: 81
+# 
+#    131: 81
+# 
+#    132: 85
+# 
+#    133: 83
+# 
+#    134: 85
+# 
+#    135: 81
+# 
+#    136: 7e
+# 
+#    137: 83
+# 
+#    138: 81
+# 
+#    139: 85
+# 
+#    140: 7e
+# 
+#    141: 83
+# 
+#    142: 83
+# 
+#    143: 7e
+# 
+#    144: 83
+# 
+#    145: 81
+# 
+#    146: ff
+# 
+#    147: ff
+# 
+#    148: 81
+# 
+#    149: 7e
+# 
+#    150: 83
+# 
+#    151: 81
+# 
+#    152: 7c
+# 
+#    153: 78
+# 
+#    154: ff
+# 
+#    155: 76
+# 
+#    156: 72
+# 
+#    157: 70
+# 
+#    158: 68
+# 
+#    159: 66
+# 
+#    160: 70
+# 
+#    161: 76
+# 
+#    162: 83
+# 
+#    163: 8b
+# 
+#    164: 8f
+# 
+#    165: 95
+# 
+#    166: 97
+# 
+#    167: 9f
+# 
+#    168: 9f
+# 
+#    169: ff
+# 
+#    170: a1
+# 
+#    171: 00
+# 
+#    172: 95
+# 
+#    173: 95
+# 
+#    174: 97
+# 
+#    175: 9b
+# 
+#    176: 9d
+# 
+#    177: ff
+# 
+#    178: 9b
+# 
+#    179: 99
+# 
+#    180: 9d
+# 
+#    181: 9d
+# 
+#    182: 99
+# 
+#    183: 9d
+# 
+#    184: 97
+# 
+#    185: 97
+# 
+#    186: 99
+# 
+#    187: 99
+# 
+#    188: 97
+# 
+#    189: 9d
+# 
+#    190: 99
+# 
+#    191: 97
+# 
+#    192: 9d
+# 
+#    193: 9d
+# 
+#    194: 00
+# 
+#    195: 99
+# 
+#    196: 9f
+# 
+#    197: 9f
+# 
+#    198: 9b
+# 
+#    199: 97
+# 
+#    200: 9b
+# 
+#    201: b1
+# 
+#    202: c5
+# 
+#    203: cf
+# 
+#    204: d3
+# 
+#    205: d7
+# 
+#    206: d9
+# 
+#    207: d9
+# 
+#    208: d7
+# 
+#    209: cd
+# 
+#    210: ab
+# 
+#    211: 78
+# 
+#    212: 68
+# 
+#    213: 66
+# 
+#    214: 6e
+# 
+#    215: 70
+# 
+#    216: 74
+# 
+#    217: 74
+# 
+#    218: 76
+# 
+#    219: 7a
+# 
+#    220: 78
+# 
+#    221: 74
+# 
+#    222: 7c
+# 
+#    223: 76
+# 
+#    224: 7a
+# 
+#    225: 00
+# 
+#    226: 76
+# 
+#    227: 76
+# 
+#    228: 7a
+# 
+#    229: 76
+# 
+#    230: 00
+# 
+#    231: 7a
+# 
+#    232: 7c
+# 
+#    233: ff
+# 
+#    234: 7e
+# 
+#    235: 7e
+# 
+#    236: 7e
+# 
+#    237: ff
+# 
+#    238: 7c
+# 
+#    239: 76
+# 
+#    240: 7a
+# 
+#    241: 7e
+# 
+#    242: 81
+# 
+#    243: 7e
+# 
+#    244: 78
+# 
+#    245: 7c
+# 
+#    246: 7e
+# 
+#    247: 7a
+# 
+#    248: 78
+# 
+#    249: 00
+# 
+#    250: 72
+# 
+#    251: 7c
+# 
+#    252: a5
+# 
+#    253: a9
+# 
+#    254: a9
+# 
+#    255: 7e
+# 
+# ** Note: $finish    : C:/Users/HP/Desktop/ROM_test/rom_test.v(32)
+#    Time: 5345 ns  Iteration: 1  Instance: /rom_test
+# 1
+# Break in Module rom_test at C:/Users/HP/Desktop/ROM_test/rom_test.v line 32
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf C:/Users/HP/Desktop/ROM_test/simulation/questa/wave.do
+quit -sim
+# End time: 23:05:13 on Apr 23,2026, Elapsed time: 0:05:20
+# Errors: 0, Warnings: 2
+quit

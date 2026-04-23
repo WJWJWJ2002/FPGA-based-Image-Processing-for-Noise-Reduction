@@ -1,0 +1,1 @@
+Warning (10268): Verilog HDL information at fifo_rom_v2.v(133): always construct contains both blocking and non-blocking assignments File: C:/Users/HP/Desktop/ROM_test/fifo_rom_v2.v Line: 133

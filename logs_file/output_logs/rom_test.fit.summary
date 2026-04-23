@@ -1,0 +1,18 @@
+Fitter Status : Successful - Thu Apr 23 22:58:41 2026
+Quartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+Revision Name : rom_test
+Top-level Entity Name : fifo_rom_v2
+Family : MAX 10
+Device : 10M50DAF484C7G
+Timing Models : Final
+Total logic elements : 153 / 49,760 ( < 1 % )
+    Total combinational functions : 136 / 49,760 ( < 1 % )
+    Dedicated logic registers : 75 / 49,760 ( < 1 % )
+Total registers : 99
+Total pins : 31 / 360 ( 9 % )
+Total virtual pins : 0
+Total memory bits : 526,352 / 1,677,312 ( 31 % )
+Embedded Multiplier 9-bit elements : 0 / 288 ( 0 % )
+Total PLLs : 0 / 4 ( 0 % )
+UFM blocks : 0 / 1 ( 0 % )
+ADC blocks : 0 / 2 ( 0 % )

@@ -1,0 +1,16 @@
+Analysis & Synthesis Status : Successful - Thu Apr 23 22:58:22 2026
+Quartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+Revision Name : rom_test
+Top-level Entity Name : fifo_rom_v2
+Family : MAX 10
+Total logic elements : 159
+    Total combinational functions : 136
+    Dedicated logic registers : 83
+Total registers : 83
+Total pins : 31
+Total virtual pins : 0
+Total memory bits : 526,352
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0
+UFM blocks : 0
+ADC blocks : 0
