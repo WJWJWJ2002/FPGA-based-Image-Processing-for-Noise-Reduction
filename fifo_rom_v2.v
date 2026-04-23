@@ -1,4 +1,5 @@
-module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, rden_fifo2, gen_req, rom_out_ff, fifo1_out_ff, fifo2_out_ff, data_valid, done_init_buf
+module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req, 
+	rom_out_ff, fifo1_out_ff, fifo2_out_ff, data_valid, done_init_buf
 );
 	`include "parameters.vh"
 	input clk, init_buff, gen_req, rden_rom, rden_fifo2;
@@ -10,8 +11,8 @@ module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, rden_fifo2, gen_req
 	wire done_init_buf, emptyrow1, fullrow1, emptyrow2, fullrow2;
 	wire[FIFO_BITS-1:0] bufw1, bufw2;
 	wire[DATA_WIDTH-1:0] rom_out, fifo1_out, fifo2_out;
-	reg[1:0] delay1, wrcount;
-	reg[1:0] state, next_state;
+	reg[1:0] wrcount;
+	reg[2:0] state, next_state;
 	localparam[2:0] INIT = 3'd0, WRITE = 3'd1, DONE = 3'd2, RDBUF = 3'd3,
 		WAIT_FF = 3'd4, WRBUF = 3'd5, VALID = 3'd6, WAIT_REQ = 3'd7;
 	//parameter DATA_WIDTH = 8, MEM_BITS = 16, FIFO_BITS = 8;
@@ -148,7 +149,6 @@ module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, rden_fifo2, gen_req
 			INIT: begin
 				wrcount <= 2'd0;
 				addr <= 16'd0;
-				delay1 <= 2'd0;
 			end
 			WRITE: begin
 				if (wrcount < 2'd3)
@@ -162,7 +162,6 @@ module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, rden_fifo2, gen_req
 			end
 			DONE: begin
 				wrcount <= 2'd0;
-				delay1 <= 2'd0;
 			end
 			RDBUF: begin
 				addr <= addr + 1'b1;
@@ -170,7 +169,6 @@ module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, rden_fifo2, gen_req
 			default: begin
 				addr <= addr;
 				wrcount <= 2'd0;
-				delay1 <= 2'd0;
 			end
 		endcase
 	end

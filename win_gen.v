@@ -1,8 +1,9 @@
-module win_gen(gen_ready, gen_req, done_gen, done_filt, rden_rom, rden_fifo2, clk, row1_out_ff, row2_out_ff, rom_out_ff, row, col
+module win_gen(gen_ready, gen_req, done_gen, done_filt, data_valid,
+	rden_rom, rden_fifo2, clk, row1_out_ff, row2_out_ff, rom_out_ff, row, col,
 	p1, p2, p3, p4, p5, p6, p7, p8, p9
 );
 	`include "parameters.vh"
-	input clk, gen_ready, done_filt; //gen_ready = done_init_buf
+	input clk, gen_ready, done_filt, data_valid; //gen_ready = done_init_buf
 	input[DATA_WIDTH-1:0] row1_out_ff, row2_out_ff, rom_out_ff;
 	output gen_req, done_gen, rden_rom, rden_fifo2;
 	output[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9, row, col;
@@ -10,9 +11,9 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, rden_rom, rden_fifo2, cl
 	reg gen_req;
 	reg[1:0] counter;
 	reg[2:0] state, next_state;
-	reg[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9;
+	reg[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9, row, col;
 	localparam[7:0] MAX_COL = 8'd255, MAX_ROW = 8'd255;
-	localparam[2:0] WAIT_INIT = 3'd0, INITREQ = 3'd1, WAITBUF = 3'd2, REQBUF = 3'd3 DONE_GEN = 3'd4, WAIT_FILT = 3'd5;
+	localparam[2:0] WAIT_INIT = 3'd0, INITREQ = 3'd1, WAITBUF = 3'd2, REQBUF = 3'd3, DONE_GEN = 3'd4, WAIT_FILT = 3'd5;
 	
 	// Next state combinational logic
 	always @(*) begin
@@ -67,7 +68,7 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, rden_rom, rden_fifo2, cl
 				counter <= counter + 1'b1;
 			end
 			DONE_GEN: begin
-				counter <= (col < MAX_COL) ? (counter - 1'b1) : (8'd0);
+				counter <= (col < MAX_COL) ? (counter - 2'd2) : (8'd0);
 				col <= col + 1'b1;
 				row <= (col == MAX_COL) ? (row + 1'b1) : row;
 			end
@@ -98,7 +99,7 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, rden_rom, rden_fifo2, cl
 		case (state)
 			WAIT_INIT: gen_req = 1'b0;
 			INITREQ: begin
-				gen_req = (col == 8'd0) ? (1'b1) : (1'b0);
+				gen_req = (col == 8'd0) ? (1'b0) : (1'b1);
 			end
 			WAITBUF: gen_req = 1'b0;
 			REQBUF: begin
@@ -113,7 +114,7 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, rden_rom, rden_fifo2, cl
 
 	// ROM read-enable and window generation finish signals output logic
 	assign rden_fifo2 = (row == 8'd0) ? (1'b0) : (1'b1);
-	assign rden_rom = (row == 8'd0 || row == MAX_ROW) ? (1'b0) : (1'b1);
+	assign rden_rom = (row == MAX_ROW) ? (1'b0) : (1'b1);
 	assign done_gen = (state == DONE_GEN) ? (1'b1) : (1'b0);
 
 endmodule
