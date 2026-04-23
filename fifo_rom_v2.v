@@ -1,19 +1,19 @@
-module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, gen_req, rom_out_ff, fifo1_out_ff, fifo2_out_ff, data_valid, done_init_buf
+module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, rden_fifo2, gen_req, rom_out_ff, fifo1_out_ff, fifo2_out_ff, data_valid, done_init_buf
 );
 	`include "parameters.vh"
-	input clk, init_buff, gen_req, rden_rom;
+	input clk, init_buff, gen_req, rden_rom, rden_fifo2;
 	output data_valid, done_init_buf;
 	output[DATA_WIDTH-1:0] rom_out_ff, fifo1_out_ff, fifo2_out_ff;
-	reg done_init_buf, rdrow2, rdrow1, wrrow1, wrrow2, data_valid;
-	reg[MEM_BITS-1:0] addr = 'd0;
+	reg rdrow2, rdrow1, wrrow1, wrrow2, data_valid;
+	reg[MEM_BITS-1:0] addr;
 	reg[DATA_WIDTH-1:0] rom_out_ff, fifo1_out_ff, fifo2_out_ff;
-	wire emptyrow1, fullrow1, emptyrow2, fullrow2;
+	wire done_init_buf, emptyrow1, fullrow1, emptyrow2, fullrow2;
 	wire[FIFO_BITS-1:0] bufw1, bufw2;
 	wire[DATA_WIDTH-1:0] rom_out, fifo1_out, fifo2_out;
-	reg[1:0] delay1, delay2, wrcount;
+	reg[1:0] delay1, wrcount;
 	reg[1:0] state, next_state;
-	localparam[2:0] INIT = 2'd0, WRITE = 2'd1, DONE = 2'd2, READ_WRITE = 2'd3, 
-		CYCLE1 = 2'd4, CYCLE2 = 2'd5, CYCLE3 = 2'd6, WAIT = 2'd7;
+	localparam[2:0] INIT = 3'd0, WRITE = 3'd1, DONE = 3'd2, RDBUF = 3'd3,
+		WAIT_FF = 3'd4, WRBUF = 3'd5, VALID = 3'd6, WAIT_REQ = 3'd7;
 	//parameter DATA_WIDTH = 8, MEM_BITS = 16, FIFO_BITS = 8;
 	rom img_data (.clock(clk), .address(addr), .rden(rden_rom), .q(rom_out));
 	
@@ -41,13 +41,6 @@ module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, gen_req, rom_out_ff
 	initial begin
 		state <= INIT;
 		next_state <= INIT;
-		wrcount <= 1'b0;
-		rdrow2 <= 1'b0;
-		wrrow2 <= 1'b0;
-		rdrow1 <= 1'b0;
-		wrrow1 <= 1'b0;
-		delay1 <= 2'b00;
-		done_init_buf <= 1'b0;
 	end
 
 	// Next state logic
@@ -55,18 +48,20 @@ module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, gen_req, rom_out_ff
 		case (state) 
 			INIT: next_state = (init_buff) ? WRITE : INIT;
 			WRITE: begin
-				if (fullrow1) next_state = READ_WRITE;
+				if (fullrow1) next_state = DONE;
 				else next_state = WRITE;
 			end
-			DONE: next_state = (gen_req) ? (DONE) : (DONE);
-			READ_WRITE: begin
-				next_state = (delay2 >= 2'd1) ? (DONE) : (READ_WRITE);
-			end
+			DONE: next_state = (gen_req) ? (RDBUF) : (DONE);
+			RDBUF: next_state = WAIT_FF;
+			WAIT_FF: next_state = WRBUF;
+			WRBUF: next_state = VALID;
+			VALID: next_state = WAIT_REQ;
+			WAIT_REQ: next_state = (gen_req) ? (RDBUF) : (WAIT_REQ);
 			default: next_state = INIT;
 		endcase
 	end
 
-	// Control signals generation 
+	// Control signals generation for buffers and filter window generation module
 	always @(*) begin
 		case (state)
 			INIT: begin
@@ -88,31 +83,47 @@ module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, gen_req, rom_out_ff
 				rdrow2 = 1'b0;
 				data_valid = 1'b0;
 			end
-			READ_WRITE: begin
-				wrrow1 = 1'b0;
-				wrrow2 = 1'b0;
-				rdrow1 = 1'b0;
-				if (!emptyrow1) begin
-					rdrow2 = 1'b1;
-				end
-				else begin
-					rdrow2 = 1'b0;
-				end
-
-				if (delay1 < 2'd2) begin
-					data_valid = 1'b0;
-				end
-				else begin
-					data_valid = 1'b1;
-				end
-			end
 			DONE: begin
 				wrrow1 = 1'b0;
 				wrrow2 = 1'b0;
 				data_valid = 1'b0;
 				rdrow1 = 1'b0;
 				rdrow2 = 1'b0;
-				done_init_buf = 1'b1;
+			end
+			RDBUF: begin
+				rdrow1 = (rden_fifo2) ? (1'b0) : (1'b1);
+				rdrow2 = 1'b1;
+				data_valid = 1'b0;
+				wrrow1 = 1'b0;
+				wrrow2 = 1'b0;
+			end
+			WAIT_FF: begin
+				rdrow1 = 1'b0;
+				rdrow2 = 1'b0;
+				wrrow2 = 1'b0;
+				wrrow2 = 1'b0;
+				data_valid = 1'b0;
+			end
+			WRBUF: begin
+				wrrow1 = 1'b1;
+				wrrow2 = 1'b0;
+				rdrow1 = 1'b0;
+				rdrow2 = 1'b0;
+				data_valid = 1'b0;
+			end
+			VALID: begin
+				data_valid = 1'b1;
+				wrrow1 = 1'b0;
+				wrrow2 = 1'b1;
+				rdrow1 = 1'b0;
+				rdrow2 = 1'b0;
+			end
+			WAIT_REQ: begin
+				data_valid = 1'b0;
+				wrrow1 = 1'b0;
+				wrrow2 = 1'b0;
+				rdrow1 = 1'b0;
+				rdrow2 = 1'b0; 
 			end
 			default: begin
 				wrrow1 = 1'b0;
@@ -120,7 +131,6 @@ module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, gen_req, rom_out_ff
 				data_valid = 1'b0;
 				rdrow2 = 1'b0;
 				rdrow1 = 1'b0;
-				done_init_buf = 1'b0;
 			end
 		endcase
 	end
@@ -132,14 +142,13 @@ module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, gen_req, rom_out_ff
 		fifo2_out_ff <= fifo2_out;
 	end
 	
-	// Delays computation and ROM address tracking
+	// Delays computation buffers initialization and ROM address tracking
 	always @(posedge clk) begin
 		case (state)
 			INIT: begin
 				wrcount <= 2'd0;
 				addr <= 16'd0;
 				delay1 <= 2'd0;
-				delay2 <= 2'd0;
 			end
 			WRITE: begin
 				if (wrcount < 2'd3)
@@ -151,14 +160,17 @@ module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, gen_req, rom_out_ff
 				else 
 					addr <= addr;
 			end
-			READ_WRITE: begin
-				if (delay1 < 2'd2)
-					delay1 <= delay1 + 1'b1;
-				else 
-					delay1 <= delay1;
-
-				if (emptyrow1) 
-					delay2 <= delay2 + 1'b1;
+			DONE: begin
+				wrcount <= 2'd0;
+				delay1 <= 2'd0;
+			end
+			RDBUF: begin
+				addr <= addr + 1'b1;
+			end
+			default: begin
+				addr <= addr;
+				wrcount <= 2'd0;
+				delay1 <= 2'd0;
 			end
 		endcase
 	end
@@ -168,4 +180,6 @@ module fifo_rom_v2 (clk, init_buff, done_init_buf, rden_rom, gen_req, rom_out_ff
 	always @(posedge clk) begin
 		state <= next_state;
 	end
+
+	assign done_init_buf = (state == DONE) ? (1'b1) : (1'b0);
 endmodule
