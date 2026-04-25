@@ -92,7 +92,7 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 				rdrow2 = 1'b0;
 			end
 			RDBUF: begin
-				rdrow1 = (rden_fifo2) ? (1'b0) : (1'b1);
+				rdrow1 = (rden_fifo2) ? (1'b1) : (1'b0);
 				rdrow2 = 1'b1;
 				data_valid = 1'b0;
 				wrrow1 = 1'b0;
@@ -101,7 +101,7 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 			WAIT_FF: begin
 				rdrow1 = 1'b0;
 				rdrow2 = 1'b0;
-				wrrow2 = 1'b0;
+				wrrow1 = 1'b0;
 				wrrow2 = 1'b0;
 				data_valid = 1'b0;
 			end

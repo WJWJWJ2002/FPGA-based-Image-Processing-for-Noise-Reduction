@@ -28,34 +28,6 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, data_valid,
 			default: next_state = WAIT_INIT;
 		endcase
 	end
-	// WIndow generation
-	always @(posedge clk) begin
-		if (next_state == REQBUF) begin
-			if (data_valid) begin
-				p9 <= rom_out_ff;
-				p8 <= p9;
-				p7 <= p8;
-				p6 <= row2_out_ff;
-				p5 <= p6;
-				p4 <= p5;
-				p3 <= row1_out_ff;
-				p2 <= p3;
-				p1 <= p2;
-			end
-			else begin
-				p9 <= 8'd0;
-				p8 <= p9;
-				p7 <= p8;
-				p6 <= 8'd0;
-				p5 <= p6;
-				p4 <= p5;
-				p3 <= 8'd0;
-				p2 <= p3;
-				p1 <= p2;
-			end
-		end
-	end
-
 	// State output for registers (Counters and pixel tracking)
 	always @(posedge clk) begin
 		case (state)
@@ -64,13 +36,43 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, data_valid,
 				col <= 8'd0;
 				row <= 8'd0;
 			end
+			INITREQ: begin
+			end
+			WAITBUF: begin
+				if (next_state == REQBUF) begin
+					if (data_valid) begin
+						p9 <= rom_out_ff;
+						p8 <= p9;
+						p7 <= p8;
+						p6 <= row2_out_ff;
+						p5 <= p6;
+						p4 <= p5;
+						p3 <= row1_out_ff;
+						p2 <= p3;
+						p1 <= p2;
+					end
+					else begin
+						p9 <= 8'd0;
+						p8 <= p9;
+						p7 <= p8;
+						p6 <= 8'd0;
+						p5 <= p6;
+						p4 <= p5;
+						p3 <= 8'd0;
+						p2 <= p3;
+						p1 <= p2;
+					end
+				end
+			end
 			REQBUF: begin
 				counter <= counter + 1'b1;
 			end
 			DONE_GEN: begin
-				counter <= (col < MAX_COL) ? (counter - 2'd2) : (8'd0);
+				counter <= (col == MAX_COL) ? (8'd0) : (counter - 2'd2);
 				col <= col + 1'b1;
 				row <= (col == MAX_COL) ? (row + 1'b1) : row;
+			end
+			WAIT_FILT: begin
 			end
 			default: begin
 				counter <= counter;

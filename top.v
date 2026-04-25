@@ -1,6 +1,7 @@
-module top(clk_o, new_pix, row, col);
+module top(clk_o, new_pix, done_gen, row, col);
 	`include "parameters.vh"
 	input clk_o;
+	output done_gen;
 	output[DATA_WIDTH-1:0] new_pix, row, col;
 	wire clk, gen_req, done_init_buf, data_valid, rden_rom, rden_fifo2, done_filt, done_gen;
 	wire[DATA_WIDTH-1:0] rom_out_ff, fifo2_out_ff, fifo1_out_ff, new_pix, row, col,
