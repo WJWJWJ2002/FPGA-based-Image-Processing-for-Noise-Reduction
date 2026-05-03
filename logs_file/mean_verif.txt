@@ -27,98 +27,98 @@
 # 
 # vlog  -work work +incdir+C:/Users/HP/Desktop/3x3_windows {C:/Users/HP/Desktop/3x3_windows/fifo.v}
 # Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-# Start time: 16:10:49 on May 03,2026
+# Start time: 17:14:58 on May 03,2026
 # vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/3x3_windows" C:/Users/HP/Desktop/3x3_windows/fifo.v 
 # ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
 # -- Compiling module fifo
 # 
 # Top level modules:
 # 	fifo
-# End time: 16:10:49 on May 03,2026, Elapsed time: 0:00:00
+# End time: 17:14:58 on May 03,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog  -work work +incdir+C:/Users/HP/Desktop/3x3_windows {C:/Users/HP/Desktop/3x3_windows/rom.v}
 # Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-# Start time: 16:10:50 on May 03,2026
+# Start time: 17:14:58 on May 03,2026
 # vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/3x3_windows" C:/Users/HP/Desktop/3x3_windows/rom.v 
 # ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
 # -- Compiling module rom
 # 
 # Top level modules:
 # 	rom
-# End time: 16:10:50 on May 03,2026, Elapsed time: 0:00:00
+# End time: 17:14:59 on May 03,2026, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog  -work work +incdir+C:/Users/HP/Desktop/3x3_windows {C:/Users/HP/Desktop/3x3_windows/Divider.v}
 # Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-# Start time: 16:10:50 on May 03,2026
+# Start time: 17:14:59 on May 03,2026
 # vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/3x3_windows" C:/Users/HP/Desktop/3x3_windows/Divider.v 
 # ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
 # -- Compiling module Divider
 # 
 # Top level modules:
 # 	Divider
-# End time: 16:10:50 on May 03,2026, Elapsed time: 0:00:00
+# End time: 17:14:59 on May 03,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog  -work work +incdir+C:/Users/HP/Desktop/3x3_windows {C:/Users/HP/Desktop/3x3_windows/mean_filter.v}
 # Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-# Start time: 16:10:50 on May 03,2026
+# Start time: 17:14:59 on May 03,2026
 # vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/3x3_windows" C:/Users/HP/Desktop/3x3_windows/mean_filter.v 
 # ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
 # -- Compiling module mean_filter
 # 
 # Top level modules:
 # 	mean_filter
-# End time: 16:10:50 on May 03,2026, Elapsed time: 0:00:00
+# End time: 17:14:59 on May 03,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog  -work work +incdir+C:/Users/HP/Desktop/3x3_windows {C:/Users/HP/Desktop/3x3_windows/win_gen.v}
 # Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-# Start time: 16:10:50 on May 03,2026
+# Start time: 17:14:59 on May 03,2026
 # vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/3x3_windows" C:/Users/HP/Desktop/3x3_windows/win_gen.v 
 # ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
 # -- Compiling module win_gen
 # 
 # Top level modules:
 # 	win_gen
-# End time: 16:10:50 on May 03,2026, Elapsed time: 0:00:00
+# End time: 17:14:59 on May 03,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog  -work work +incdir+C:/Users/HP/Desktop/3x3_windows {C:/Users/HP/Desktop/3x3_windows/top.v}
 # Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-# Start time: 16:10:50 on May 03,2026
+# Start time: 17:15:00 on May 03,2026
 # vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/3x3_windows" C:/Users/HP/Desktop/3x3_windows/top.v 
 # ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
 # -- Compiling module top
 # 
 # Top level modules:
 # 	top
-# End time: 16:10:51 on May 03,2026, Elapsed time: 0:00:01
+# End time: 17:15:00 on May 03,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog  -work work +incdir+C:/Users/HP/Desktop/3x3_windows {C:/Users/HP/Desktop/3x3_windows/fifo_rom_v2.v}
 # Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-# Start time: 16:10:51 on May 03,2026
+# Start time: 17:15:00 on May 03,2026
 # vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/3x3_windows" C:/Users/HP/Desktop/3x3_windows/fifo_rom_v2.v 
 # ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
 # -- Compiling module fifo_rom_v2
 # 
 # Top level modules:
 # 	fifo_rom_v2
-# End time: 16:10:51 on May 03,2026, Elapsed time: 0:00:00
+# End time: 17:15:00 on May 03,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vlog  -work work +incdir+C:/Users/HP/Desktop/3x3_windows {C:/Users/HP/Desktop/3x3_windows/wingen_test.v}
 # Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-# Start time: 16:10:51 on May 03,2026
+# Start time: 17:15:00 on May 03,2026
 # vlog -reportprogress 300 -work work "+incdir+C:/Users/HP/Desktop/3x3_windows" C:/Users/HP/Desktop/3x3_windows/wingen_test.v 
 # ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
 # -- Compiling module wingen_test
 # 
 # Top level modules:
 # 	wingen_test
-# End time: 16:10:51 on May 03,2026, Elapsed time: 0:00:00
+# End time: 17:15:00 on May 03,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L rtl_work -L work -voptargs="+acc"  wingen_test
 # ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L rtl_work -L work -voptargs=""+acc"" wingen_test 
-# Start time: 16:10:51 on May 03,2026
+# Start time: 17:15:00 on May 03,2026
 # ** Note: (vsim-3812) Design is being optimized...
 # ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
 # ** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
@@ -65699,6 +65699,6 @@ run -c
 # 2e
 # end
 # ** Note: $finish    : C:/Users/HP/Desktop/3x3_windows/wingen_test.v(33)
-#    Time: 2886173 ns  Iteration: 2  Instance: /wingen_test
+#    Time: 1968669 ns  Iteration: 2  Instance: /wingen_test
 # 1
 # Break in Module wingen_test at C:/Users/HP/Desktop/3x3_windows/wingen_test.v line 33

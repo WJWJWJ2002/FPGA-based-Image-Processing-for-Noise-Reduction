@@ -4,7 +4,7 @@ module mean_filter(clk, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p7
 	input[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9;
 	output done_filt;
 	output[DATA_WIDTH-1:0] new_pix;
-	reg[3:0] div_delay;
+	reg[2:0] div_delay;
 	reg[DATA_WIDTH-1:0] a11, a12, a13, a21, a22, a23, a31, a32, a33, mean_pix_ff;
 	reg[8:0] sum0, sum1, sum2, sum3;
 	reg[9:0] sum4, sum5; 
@@ -20,7 +20,7 @@ module mean_filter(clk, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p7
 			S1: next_state = S2;
 			S2: next_state = S3;
 			S3: next_state = S4;
-			S4: next_state = (div_delay < 4'd10) ? S4 : DONE;
+			S4: next_state = (div_delay < 3'd3) ? S4 : DONE;
 			DONE: next_state = WAIT_GEN;
 			default: next_state = WAIT_GEN;
 		endcase
@@ -38,7 +38,7 @@ module mean_filter(clk, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p7
 	always @(posedge clk) begin
 		case (state)
 			WAIT_GEN: begin
-				div_delay <= 2'd0;
+				div_delay <= 3'd0;
 				a11 <= p1;
 				a12 <= p2;
 				a13 <= p3;
@@ -66,7 +66,7 @@ module mean_filter(clk, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p7
 				div_delay <= div_delay + 1'b1;
 			end
 			DONE: begin
-				div_delay <= 2'd0;
+				div_delay <= 3'd0;
 			end
 			default: begin
 			end
