@@ -8,14 +8,13 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 	reg rdrow2, rdrow1, wrrow1, wrrow2, data_valid;
 	reg[MEM_BITS-1:0] addr;
 	reg[DATA_WIDTH-1:0] rom_out_ff, fifo1_out_ff, fifo2_out_ff;
-	wire done_init_buf, emptyrow1, fullrow1, emptyrow2, fullrow2;
-	wire[FIFO_BITS-1:0] bufw1, bufw2;
+	wire done_init_buf, emptyrow2, fullrow2, emptyrow1, fullrow1;
+	wire[FIFO_BITS-1:0] bufw2, bufw1;
 	wire[DATA_WIDTH-1:0] rom_out, fifo1_out, fifo2_out;
 	reg[1:0] wrcount;
 	reg[2:0] state, next_state;
 	localparam[2:0] INIT = 3'd0, WRITE = 3'd1, DONE = 3'd2, RDBUF = 3'd3,
 		WAIT_FF = 3'd4, WRBUF = 3'd5, VALID = 3'd6, WAIT_REQ = 3'd7;
-	//parameter DATA_WIDTH = 8, MEM_BITS = 16, FIFO_BITS = 8;
 	rom img_data (.clock(clk), .address(addr), .rden(rden_rom), .q(rom_out));
 	
 	//ROM_out is third row
@@ -23,20 +22,20 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 	.data(rom_out_ff), 
 	.rdreq ( rdrow2 ),
 	.wrreq ( wrrow2 ),
-	.empty ( emptyrow1 ), 
-	.full ( fullrow1 ),
+	.empty ( emptyrow2 ), 
+	.full ( fullrow2 ),
 	.q ( fifo1_out ),
-	.usedw ( bufw1 )
+	.usedw ( bufw2 )
 	);
 	
 	fifo row1 (.clock(clk), 
 	.data(fifo1_out_ff), 
 	.rdreq ( rdrow1 ),
 	.wrreq ( wrrow1 ),
-	.empty ( emptyrow2 ), 
-	.full ( fullrow2 ),
+	.empty ( emptyrow1 ), 
+	.full ( fullrow1 ),
 	.q ( fifo2_out ),
-	.usedw ( bufw2 )
+	.usedw ( bufw1 )
 	);
 	
 	initial begin
@@ -49,7 +48,7 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 		case (state) 
 			INIT: next_state = (init_buff) ? WRITE : INIT;
 			WRITE: begin
-				if (fullrow1) next_state = DONE;
+				if (fullrow2) next_state = DONE;
 				else next_state = WRITE;
 			end
 			DONE: next_state = (gen_req) ? (RDBUF) : (DONE);
@@ -73,7 +72,7 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 				data_valid = 1'b0;
 			end
 			WRITE: begin
-				if (wrcount > 2'd2 && !fullrow1) begin
+				if (wrcount > 2'd2 && !fullrow2) begin
 					wrrow2 = 1'b1;
 				end
 				else begin
@@ -138,7 +137,7 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 	
 	// Buffer to solve setup timing issue
 	always @(posedge clk) begin
-		rom_out_ff <= rom_out;
+		rom_out_ff <= (rden_rom) ? rom_out : 8'd0;
 		fifo1_out_ff <= fifo1_out;
 		fifo2_out_ff <= fifo2_out;
 	end
@@ -155,7 +154,7 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 					wrcount <= wrcount + 1'b1;
 				else
 					wrcount = wrcount;
-				if (bufw1 <= FIFO_DEPTH - 4 && !fullrow1)
+				if (bufw2 <= FIFO_DEPTH - 4 && !fullrow2)
 					addr <= addr + 1'b1;
 				else 
 					addr <= addr;
@@ -164,7 +163,7 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 				wrcount <= 2'd0;
 			end
 			RDBUF: begin
-				addr <= addr + 1'b1;
+				addr <= (rden_rom) ? addr + 1'b1 : addr;
 			end
 			default: begin
 				addr <= addr;
