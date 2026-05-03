@@ -26,11 +26,27 @@ module top(clk, new_pix_ff, done_filt_ff);
 	.row1_out_ff(fifo2_out_ff), .row2_out_ff(fifo1_out_ff), .rom_out_ff(rom_out_ff), .row(row), .col(col),
 	.p1(p1), .p2(p2), .p3(p3), .p4(p4), .p5(p5), .p6(p6), .p7(p7), .p8(p8), .p9(p9)
 	);
+
+	`ifdef DUMMY_FILTER
+		dummy_filter filter_module (.clk(clk), .done_gen(done_gen), 
+		.p1(p1), .p2(p2), .p3(p3), .p4(p4), .p5(p5), .p6(p6), .p7(p7), .p8(p8), .p9(p9),
+		.done_filt(done_filt), .new_pix(new_pix)
+		);
+	`endif
 	
-	median_filter filter_module (.clk(clk), .done_gen(done_gen), 
-	.p1(p1), .p2(p2), .p3(p3), .p4(p4), .p5(p5), .p6(p6), .p7(p7), .p8(p8), .p9(p9),
-	.done_filt(done_filt), .new_pix(new_pix)
-	);
+	`ifdef MEDIAN_FILTER
+		median_filter filter_module (.clk(clk), .done_gen(done_gen), 
+		.p1(p1), .p2(p2), .p3(p3), .p4(p4), .p5(p5), .p6(p6), .p7(p7), .p8(p8), .p9(p9),
+		.done_filt(done_filt), .new_pix(new_pix)
+		);
+	`endif
+
+	`ifdef MEAN_FILTER
+		mean_filter filter_module (.clk(clk), .done_gen(done_gen), 
+		.p1(p1), .p2(p2), .p3(p3), .p4(p4), .p5(p5), .p6(p6), .p7(p7), .p8(p8), .p9(p9),
+		.done_filt(done_filt), .new_pix(new_pix)
+		);
+	`endif
 
 	always @(posedge clk) begin
 		done_filt_ff <= done_filt;
