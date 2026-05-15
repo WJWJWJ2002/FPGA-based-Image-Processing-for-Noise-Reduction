@@ -1,6 +1,6 @@
-module mean_filter(clk, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p7, p8, p9);
+module mean_filter(clk, rst, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p7, p8, p9);
 	`include "parameters.vh"
-	input clk, done_gen;
+	input clk, rst, done_gen;
 	input[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9;
 	output done_filt;
 	output[DATA_WIDTH-1:0] new_pix;
@@ -74,8 +74,14 @@ module mean_filter(clk, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p7
 	end
 
 	always @(posedge clk) begin
-		state <= next_state;
-		mean_pix_ff <= mean_pix;
+		if (rst) begin
+			state <= WAIT_GEN;
+			mean_pix_ff <= 8'd0;
+		end
+		else begin
+			state <= next_state;
+			mean_pix_ff <= mean_pix;
+		end
 	end
 	
 	assign en_div = (state == S4) ? (1'b1) : (1'b0);

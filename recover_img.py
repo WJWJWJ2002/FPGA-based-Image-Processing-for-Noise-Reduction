@@ -17,20 +17,11 @@ with open(data_path, "r") as data_file:
     x = 0
     y = 0
     for l in line:
-        if (l.strip("# \n") == "end"):
-            start = False
-            continue
-
-        if (l.strip("# \n") == "start"):
-            start = True
-            continue
-
-        if start == True:
-            img_data[y][x] = np.uint8(int(l.strip("# \n"), 16))
-            x = x + 1
-            if x == 256:
-                y = y + 1
-                x = 0
+        img_data[y][x] = np.uint8(int(l.strip("\n"), 16))
+        x = x + 1
+        if x == 256:
+            y = y + 1
+            x = 0
             
 cv2.imwrite(os.path.join(img_path, img_file), img_data);
 

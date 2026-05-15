@@ -1,9 +1,9 @@
 module win_gen(gen_ready, gen_req, done_gen, done_filt, data_valid,
-	rden_rom, rden_fifo2, clk, row1_out_ff, row2_out_ff, rom_out_ff, row, col,
+	rden_rom, rden_fifo2, clk, rst, row1_out_ff, row2_out_ff, rom_out_ff, row, col,
 	p1, p2, p3, p4, p5, p6, p7, p8, p9
 );
 	`include "parameters.vh"
-	input clk, gen_ready, done_filt, data_valid; //gen_ready = done_init_buf
+	input clk, rst, gen_ready, done_filt, data_valid; //gen_ready = done_init_buf
 	input[DATA_WIDTH-1:0] row1_out_ff, row2_out_ff, rom_out_ff;
 	output gen_req, done_gen, rden_rom, rden_fifo2;
 	output[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9, row, col;
@@ -93,7 +93,12 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, data_valid,
 
 	// Load next state into state register
 	always @(posedge clk) begin
-		state <= next_state;
+		if (rst) begin
+			state <= WAIT_INIT;
+		end
+		else begin
+			state <= next_state;
+		end
 	end
 
 	// gen_req output using always_comb block

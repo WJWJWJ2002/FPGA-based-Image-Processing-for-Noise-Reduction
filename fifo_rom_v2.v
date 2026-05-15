@@ -1,8 +1,8 @@
-module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req, 
+module fifo_rom_v2 (clk, rst, init_buff, rden_rom, rden_fifo2, gen_req, 
 	rom_out_ff, fifo1_out_ff, fifo2_out_ff, data_valid, done_init_buf
 );
 	`include "parameters.vh"
-	input clk, init_buff, gen_req, rden_rom, rden_fifo2;
+	input clk, rst, init_buff, gen_req, rden_rom, rden_fifo2;
 	output data_valid, done_init_buf;
 	output[DATA_WIDTH-1:0] rom_out_ff, fifo1_out_ff, fifo2_out_ff;
 	reg rdrow2, rdrow1, wrrow1, wrrow2, data_valid;
@@ -25,7 +25,8 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 	.empty ( emptyrow2 ), 
 	.full ( fullrow2 ),
 	.q ( fifo1_out ),
-	.usedw ( bufw2 )
+	.usedw ( bufw2 ),
+	.sclr(rst)
 	);
 	
 	fifo row1 (.clock(clk), 
@@ -35,7 +36,8 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 	.empty ( emptyrow1 ), 
 	.full ( fullrow1 ),
 	.q ( fifo2_out ),
-	.usedw ( bufw1 )
+	.usedw ( bufw1 ),
+	.sclr (rst)
 	);
 	
 	initial begin
@@ -175,7 +177,12 @@ module fifo_rom_v2 (clk, init_buff, rden_rom, rden_fifo2, gen_req,
 
 	// State transition
 	always @(posedge clk) begin
-		state <= next_state;
+		if (rst) begin
+			state <= INIT;
+		end
+		else begin
+			state <= next_state;
+		end
 	end
 
 	assign done_init_buf = (state == DONE) ? (1'b1) : (1'b0);

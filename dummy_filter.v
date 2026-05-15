@@ -1,5 +1,5 @@
-module dummy_filter(clk, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p7, p8, p9);
-	input clk, done_gen;
+module dummy_filter(clk, rst, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p7, p8, p9);
+	input clk, rst, done_gen;
 	input[7:0] p1, p2, p3, p4, p5, p6, p7, p8, p9;
 	output done_filt;
 	output[7:0] new_pix;
@@ -30,16 +30,29 @@ module dummy_filter(clk, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p
 			
 	always @(posedge clk) begin
 		case (state)
-			WAIT_GEN: begin	
-				a11 <= p1;
-				a12 <= p2;
-				a13 <= p3;
-				a21 <= p4;
-				a22 <= p5;
-				a23 <= p6;
-				a31 <= p7;
-				a32 <= p8;
-				a33 <= p9;
+			WAIT_GEN: begin
+				if (rst) begin
+					a11 <= 8'd0;
+					a12 <= 8'd0;
+					a13 <= 8'd0;
+					a21 <= 8'd0;
+					a22 <= 8'd0;
+					a23 <= 8'd0;
+					a31 <= 8'd0;
+					a32 <= 8'd0;
+					a33 <= 8'd0;
+				end
+				else begin
+					a11 <= p1;
+					a12 <= p2;
+					a13 <= p3;
+					a21 <= p4;
+					a22 <= p5;
+					a23 <= p6;
+					a31 <= p7;
+					a32 <= p8;
+					a33 <= p9;
+				end
 			end
 			S1: begin
 			end
@@ -68,7 +81,12 @@ module dummy_filter(clk, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p
 	end
 
 	always @(posedge clk) begin
-		state <= next_state;
+		if (rst) begin
+			state <= WAIT_GEN;
+		end
+		else begin
+			state <= next_state;
+		end
 	end
 
 	assign new_pix = a22;

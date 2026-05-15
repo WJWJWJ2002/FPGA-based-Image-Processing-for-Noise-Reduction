@@ -1,6 +1,6 @@
-module median_filter(clk, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p7, p8, p9);
+module median_filter(clk, rst, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, p7, p8, p9);
 	`include "parameters.vh"
-	input clk, done_gen;
+	input clk, rst, done_gen;
 	input[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9;
 	output done_filt;
 	output[DATA_WIDTH-1:0] new_pix;
@@ -165,7 +165,12 @@ module median_filter(clk, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p6, 
 	end		
 	// State register loading
 	always @(posedge clk) begin
-		state <= next_state;
+		if (rst) begin
+			state <= WAIT_GEN;
+		end
+		else begin
+			state <= next_state;
+		end
 	end
 
 	// Median filter output, finish filtering signal
