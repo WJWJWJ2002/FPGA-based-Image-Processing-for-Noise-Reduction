@@ -11,7 +11,8 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, data_valid,
 	reg gen_req;
 	reg[1:0] counter;
 	reg[2:0] state, next_state;
-	reg[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9, row, col;
+	reg[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9, col;
+	reg[DATA_WIDTH:0] row;
 	localparam[7:0] MAX_COL = 8'd255, MAX_ROW = 8'd255;
 	localparam[2:0] WAIT_INIT = 3'd0, INITREQ = 3'd1, WAITBUF = 3'd2, REQBUF = 3'd3, DONE_GEN = 3'd4, WAIT_FILT = 3'd5;
 	
@@ -23,7 +24,7 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, data_valid,
 			WAITBUF: next_state = (data_valid || (col == 8'd0 && counter == 2'd0) || 
 				(col == MAX_COL && counter == 2'd2)) ? (REQBUF) : (WAITBUF);
 			REQBUF: next_state = (counter < 2'd2) ? (WAITBUF) : (DONE_GEN);
-			DONE_GEN: next_state = WAIT_FILT;
+			DONE_GEN: next_state = (row == MAX_ROW + 1) ? WAIT_INIT : WAIT_FILT;
 			WAIT_FILT: next_state = (done_filt) ? ((col == 8'd0) ? (INITREQ) : (REQBUF)) : (WAIT_FILT);
 			default: next_state = WAIT_INIT;
 		endcase
@@ -34,7 +35,7 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, data_valid,
 			WAIT_INIT: begin
 				counter <= 2'd0;
 				col <= 8'd0;
-				row <= 8'd0;
+				row <= 9'd0;
 			end
 			INITREQ: begin
 			end

@@ -2,26 +2,44 @@
 module wingen_test;
 	reg clk, rst_sync, clk_100;
 	reg[16:0] pix_count;
-	wire done_filt, rst;
+	wire done_filt, rst, VGA_HS, VGA_VS;
+	wire[3:0] VGA_R, VGA_G, VGA_B;
 	wire[7:0] centre_pix;
 	integer f;
 
 	initial begin
 		f = $fopen("new_pix.txt", "w");
+		$stop;
 		clk = 1'b0;
 		clk_100 = 1'b0;
 		pix_count = 1'b0;
 		rst_sync = 1'b0;
 		#1000
-		rst_sync = 1'b1;
+		//rst_sync = 1'b1;
 		#15_000_000
-		f = $fopen("new_pix.txt", "w");
+		//f = $fopen("new_pix.txt", "w");
 		rst_sync = 1'b0;
 	end
 
 	always #10 clk = ~clk;
 	always #5 clk_100 = ~clk_100;
-	top DUT (.clk(clk), .rst_sync(rst_sync), .new_pix_ff(centre_pix), .done_filt_ff(done_filt), .rst_valid(rst));
+	top DUT (.clk(clk), 
+		.rst_sync(rst_sync), 
+		.new_pix_ff(centre_pix), 
+		.done_filt_ff(done_filt), 
+		.rst_valid(rst),
+		.VGA_R(VGA_R),
+		.VGA_G(VGA_G),
+		.VGA_B(VGA_B),
+		.VGA_HS(VGA_HS),
+		.VGA_VS(VGA_VS),
+		.seg1(),
+		.seg2(),
+		.seg3(),
+		.seg4(),
+		.seg5(),
+		.seg6()
+	);
 	
 	always @(posedge clk_100) begin
 		if (done_filt) begin

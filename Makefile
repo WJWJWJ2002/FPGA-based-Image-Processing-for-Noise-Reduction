@@ -13,6 +13,11 @@ mean_verif:
 	mv new_pix.txt ./logs_file/mean_verif.txt
 	python3 recover_img.py ${WORKAREA} 3x3_windows logs_file/mean_verif.txt recover_mean.bmp
 
+bilateral_verif:
+	cp -r ./simulation/modelsim/new_pix.txt .
+	mv new_pix.txt ./logs_file/bilateral_verif.txt
+	python3 recover_img.py ${WORKAREA} 3x3_windows logs_file/bilateral_verif.txt recover_bilateral.bmp
+
 dummy_filter:
 	python3 config_setup.py ${WORKAREA} 3x3_windows DUMMY_FILTER
 
@@ -21,6 +26,9 @@ median_filter:
 
 mean_filter:
 	python3 config_setup.py ${WORKAREA} 3x3_windows MEAN_FILTER
+
+bilateral_filter:
+	python3 config_setup.py ${WORKAREA} 3x3_windows BILATERAL_FILTER
 
 noise_10:
 	python3 ./py_script/'Salt and Pepper.py' ${WORKAREA}/3x3_windows/py_script 10
