@@ -6,7 +6,10 @@ module vga_controller(
 	output rd_clken,
 	output reg H_SYNC,
 	output reg V_SYNC,
-	output[3:0] R, G, B,
+	output SYNC_N,
+	output BLANK_N,
+	output VGA_CLK,
+	output[7:0] R, G, B,
 	output reg[15:0] rd_addr
 );
 	localparam[1:0] WAIT_FILT = 2'd0, VGA_WAIT = 2'd1, VGA_START = 2'd2;
@@ -53,9 +56,11 @@ module vga_controller(
 	end
 	
 	assign rd_clken = (x_count <= 'd256 && y_count < 'd256 && ~rst && state == VGA_START) ? 1'b1 : 1'b0;
-	assign R = dpram_in[7:4] & {4{rd_clken}};
-	assign G = dpram_in[7:4] & {4{rd_clken}};
-	assign B = dpram_in[7:4] & {4{rd_clken}};
-
+	assign R = dpram_in[7:0] & {8{rd_clken}};
+	assign G = dpram_in[7:0] & {8{rd_clken}};
+	assign B = dpram_in[7:0] & {8{rd_clken}};
+	assign BLANK_N = H_SYNC & V_SYNC;
+	assign SYNC_N = 1'b0;
+	assign VGA_CLK = clk_25;
 endmodule
 

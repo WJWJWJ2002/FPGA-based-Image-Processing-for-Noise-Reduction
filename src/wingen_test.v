@@ -2,8 +2,8 @@
 module wingen_test;
 	reg clk, rst_sync, clk_100;
 	reg[16:0] pix_count;
-	wire done_filt, rst, VGA_HS, VGA_VS;
-	wire[3:0] VGA_R, VGA_G, VGA_B;
+	wire done_filt, rst, VGA_HS, VGA_VS, VGA_SYNC, VGA_BLANK, VGA_CLK;
+	wire[7:0] VGA_R, VGA_G, VGA_B;
 	wire[7:0] centre_pix;
 	integer f;
 
@@ -33,6 +33,9 @@ module wingen_test;
 		.VGA_B(VGA_B),
 		.VGA_HS(VGA_HS),
 		.VGA_VS(VGA_VS),
+		.VGA_SYNC_N(VGA_SYNC),
+		.VGA_BLANK_N(VGA_BLANK),
+		.VGA_CLK(VGA_CLK),
 		.seg1(),
 		.seg2(),
 		.seg3(),

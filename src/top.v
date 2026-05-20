@@ -1,9 +1,9 @@
-module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS, new_pix_ff, done_filt_ff, rst_valid, seg1, seg2, seg3, seg4, seg5, seg6);
+module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N, new_pix_ff, done_filt_ff, rst_valid, seg1, seg2, seg3, seg4, seg5, seg6);
 	`include "parameters.vh"
 	input clk, rst_sync;
-	output done_filt_ff, rst_valid, VGA_HS, VGA_VS;
+	output done_filt_ff, rst_valid, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N, VGA_CLK;
 	reg done_filt_ff=0;
-	output[3:0] VGA_R, VGA_G, VGA_B;
+	output[7:0] VGA_R, VGA_G, VGA_B;
 	output[DATA_WIDTH-1:0] new_pix_ff, seg1, seg2, seg3, seg4, seg5, seg6;
 	reg[DATA_WIDTH-1:0] new_pix_ff=0;
 	wire outclk_25, outclk_100, rst, gen_req, done_init_buf, data_valid, rden_rom, rden_fifo2, done_filt, done_gen, rd_clken;
@@ -18,10 +18,11 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS, new_pix_ff, done_
 	
 	// PLL generates 100 MHz clock for image processing and 25 MHz clock
 	// for VGA timing, input clock is 50 MHz from De10-Lite board
-	PLL	PLL_inst (
-		.inclk0 ( clk ),
-		.c0 ( outclk_100 ),
-		.c1 ( outclk_25 )
+	PLL_cyc	PLL_inst (
+		.refclk ( clk ),
+		.rst(1'b0),
+		.outclk_0 ( outclk_100 ),
+		.outclk_1 ( outclk_25 )
 	);
 
 	// Switch debouncing for reset signal, only valid if high for 8ms
@@ -128,6 +129,9 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS, new_pix_ff, done_
 		.dpram_in(vga_out),
 		.H_SYNC(VGA_HS),
 		.V_SYNC(VGA_VS),
+		.BLANK_N(VGA_BLANK_N),
+		.SYNC_N(VGA_SYNC_N),
+		.VGA_CLK(VGA_CLK),
 		.rd_clken(rd_clken),
 		.R(VGA_R),
 		.G(VGA_G),

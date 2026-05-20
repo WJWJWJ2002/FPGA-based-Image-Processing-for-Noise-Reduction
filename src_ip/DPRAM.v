@@ -44,6 +44,7 @@ module DPRAM (
 	rdclocken,
 	wraddress,
 	wrclock,
+	wrclocken,
 	wren,
 	q);
 
@@ -54,6 +55,7 @@ module DPRAM (
 	input	  rdclocken;
 	input	[15:0]  wraddress;
 	input	  wrclock;
+	input	  wrclocken;
 	input	  wren;
 	output	[7:0]  q;
 `ifndef ALTERA_RESERVED_QIS
@@ -62,6 +64,7 @@ module DPRAM (
 	tri0	  rd_aclr;
 	tri1	  rdclocken;
 	tri1	  wrclock;
+	tri1	  wrclocken;
 	tri0	  wren;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_on
@@ -76,6 +79,7 @@ module DPRAM (
 				.address_b (rdaddress),
 				.clock0 (wrclock),
 				.clock1 (rdclock),
+				.clocken0 (wrclocken),
 				.clocken1 (rdclocken),
 				.data_a (data),
 				.wren_a (wren),
@@ -85,7 +89,6 @@ module DPRAM (
 				.addressstall_b (1'b0),
 				.byteena_a (1'b1),
 				.byteena_b (1'b1),
-				.clocken0 (1'b1),
 				.clocken2 (1'b1),
 				.clocken3 (1'b1),
 				.data_b ({8{1'b1}}),
@@ -97,10 +100,10 @@ module DPRAM (
 	defparam
 		altsyncram_component.address_aclr_b = "NONE",
 		altsyncram_component.address_reg_b = "CLOCK1",
-		altsyncram_component.clock_enable_input_a = "BYPASS",
+		altsyncram_component.clock_enable_input_a = "NORMAL",
 		altsyncram_component.clock_enable_input_b = "NORMAL",
 		altsyncram_component.clock_enable_output_b = "NORMAL",
-		altsyncram_component.intended_device_family = "MAX 10",
+		altsyncram_component.intended_device_family = "Cyclone V",
 		altsyncram_component.lpm_type = "altsyncram",
 		altsyncram_component.numwords_a = 65536,
 		altsyncram_component.numwords_b = 65536,
@@ -108,7 +111,7 @@ module DPRAM (
 		altsyncram_component.outdata_aclr_b = "CLEAR1",
 		altsyncram_component.outdata_reg_b = "CLOCK1",
 		altsyncram_component.power_up_uninitialized = "FALSE",
-		altsyncram_component.ram_block_type = "M9K",
+		altsyncram_component.ram_block_type = "M10K",
 		altsyncram_component.widthad_a = 16,
 		altsyncram_component.widthad_b = 16,
 		altsyncram_component.width_a = 8,
@@ -129,7 +132,7 @@ endmodule
 // Retrieval info: PRIVATE: BYTE_ENABLE_B NUMERIC "0"
 // Retrieval info: PRIVATE: BYTE_SIZE NUMERIC "8"
 // Retrieval info: PRIVATE: BlankMemory NUMERIC "1"
-// Retrieval info: PRIVATE: CLOCK_ENABLE_INPUT_A NUMERIC "0"
+// Retrieval info: PRIVATE: CLOCK_ENABLE_INPUT_A NUMERIC "1"
 // Retrieval info: PRIVATE: CLOCK_ENABLE_INPUT_B NUMERIC "1"
 // Retrieval info: PRIVATE: CLOCK_ENABLE_OUTPUT_A NUMERIC "1"
 // Retrieval info: PRIVATE: CLOCK_ENABLE_OUTPUT_B NUMERIC "1"
@@ -147,7 +150,7 @@ endmodule
 // Retrieval info: PRIVATE: INDATA_REG_B NUMERIC "0"
 // Retrieval info: PRIVATE: INIT_FILE_LAYOUT STRING "PORT_B"
 // Retrieval info: PRIVATE: INIT_TO_SIM_X NUMERIC "0"
-// Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING "MAX 10"
+// Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING "Cyclone V"
 // Retrieval info: PRIVATE: JTAG_ENABLED NUMERIC "0"
 // Retrieval info: PRIVATE: JTAG_ID STRING "NONE"
 // Retrieval info: PRIVATE: MAXIMUM_DEPTH NUMERIC "0"
@@ -183,10 +186,10 @@ endmodule
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 // Retrieval info: CONSTANT: ADDRESS_ACLR_B STRING "NONE"
 // Retrieval info: CONSTANT: ADDRESS_REG_B STRING "CLOCK1"
-// Retrieval info: CONSTANT: CLOCK_ENABLE_INPUT_A STRING "BYPASS"
+// Retrieval info: CONSTANT: CLOCK_ENABLE_INPUT_A STRING "NORMAL"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_INPUT_B STRING "NORMAL"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_OUTPUT_B STRING "NORMAL"
-// Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "MAX 10"
+// Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone V"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "altsyncram"
 // Retrieval info: CONSTANT: NUMWORDS_A NUMERIC "65536"
 // Retrieval info: CONSTANT: NUMWORDS_B NUMERIC "65536"
@@ -194,7 +197,7 @@ endmodule
 // Retrieval info: CONSTANT: OUTDATA_ACLR_B STRING "CLEAR1"
 // Retrieval info: CONSTANT: OUTDATA_REG_B STRING "CLOCK1"
 // Retrieval info: CONSTANT: POWER_UP_UNINITIALIZED STRING "FALSE"
-// Retrieval info: CONSTANT: RAM_BLOCK_TYPE STRING "M9K"
+// Retrieval info: CONSTANT: RAM_BLOCK_TYPE STRING "M10K"
 // Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "16"
 // Retrieval info: CONSTANT: WIDTHAD_B NUMERIC "16"
 // Retrieval info: CONSTANT: WIDTH_A NUMERIC "8"
@@ -208,12 +211,14 @@ endmodule
 // Retrieval info: USED_PORT: rdclocken 0 0 0 0 INPUT VCC "rdclocken"
 // Retrieval info: USED_PORT: wraddress 0 0 16 0 INPUT NODEFVAL "wraddress[15..0]"
 // Retrieval info: USED_PORT: wrclock 0 0 0 0 INPUT VCC "wrclock"
+// Retrieval info: USED_PORT: wrclocken 0 0 0 0 INPUT VCC "wrclocken"
 // Retrieval info: USED_PORT: wren 0 0 0 0 INPUT GND "wren"
 // Retrieval info: CONNECT: @aclr1 0 0 0 0 rd_aclr 0 0 0 0
 // Retrieval info: CONNECT: @address_a 0 0 16 0 wraddress 0 0 16 0
 // Retrieval info: CONNECT: @address_b 0 0 16 0 rdaddress 0 0 16 0
 // Retrieval info: CONNECT: @clock0 0 0 0 0 wrclock 0 0 0 0
 // Retrieval info: CONNECT: @clock1 0 0 0 0 rdclock 0 0 0 0
+// Retrieval info: CONNECT: @clocken0 0 0 0 0 wrclocken 0 0 0 0
 // Retrieval info: CONNECT: @clocken1 0 0 0 0 rdclocken 0 0 0 0
 // Retrieval info: CONNECT: @data_a 0 0 8 0 data 0 0 8 0
 // Retrieval info: CONNECT: @wren_a 0 0 0 0 wren 0 0 0 0
