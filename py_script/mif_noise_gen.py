@@ -4,11 +4,20 @@ import sys
 img_size = int(sys.argv[1])
 root = sys.argv[2]
 txt_file = sys.argv[3]
+noise = sys.argv[4]
+style = sys.argv[5]
+txt_folder = os.path.join(root, "image_data_text")
+mif_folder = os.path.join(root, "mif_files")
 width = 8
-input_folder = os.path.join(root, txt_file)
-output_folder = "noisy_img_" + sys.argv[4] + ".mif"
+input_folder = os.path.join(txt_folder, txt_file)
+if style == "lena":
+    output_file = "noisy_img_" + noise + ".mif"
+elif style == "pepper":
+    output_file = "noisy_img_pepper_" + noise + ".mif"
+elif style == "baboon":
+    output_file = "noisy_img_baboon_" + noise + ".mif"
 img_data_file = open(input_folder, "r")
-mif_file = open(os.path.join(root, output_folder), "w")
+mif_file = open(os.path.join(mif_folder, output_file), "w")
 mif_file.write(f"DEPTH={img_size*img_size};\n")
 mif_file.write(f"WIDTH={width};\n")
 mif_file.write("ADDRESS_RADIX=UNS;\n")
