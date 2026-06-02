@@ -1,21 +1,25 @@
-module fifo_rom_v2 (clk, rst, init_buff, rden_rom, rden_fifo2, gen_req, 
+module fifo_rom_v2 (clk, rst, img_sel, init_buff, rden_rom, rden_fifo2, gen_req, 
 	rom_out_ff, fifo1_out_ff, fifo2_out_ff, data_valid, done_init_buf
 );
 	`include "parameters.vh"
 	input clk, rst, init_buff, gen_req, rden_rom, rden_fifo2;
+	input[1:0] img_sel;
 	output data_valid, done_init_buf;
 	output[DATA_WIDTH-1:0] rom_out_ff, fifo1_out_ff, fifo2_out_ff;
 	reg rdrow2, rdrow1, wrrow1, wrrow2, data_valid;
 	reg[MEM_BITS-1:0] addr;
 	reg[DATA_WIDTH-1:0] rom_out_ff, fifo1_out_ff, fifo2_out_ff;
 	wire done_init_buf, emptyrow2, fullrow2, emptyrow1, fullrow1;
+	wire[2:0] img_en;
 	wire[FIFO_BITS-1:0] bufw2, bufw1;
-	wire[DATA_WIDTH-1:0] rom_out, fifo1_out, fifo2_out;
-	reg[1:0] wrcount;
+	wire[DATA_WIDTH-1:0] rom_out, rom0_out, rom1_out, rom2_out, fifo1_out, fifo2_out;
+	reg[1:0] wrcount, img_sel_reg=0;
 	reg[2:0] state, next_state;
 	localparam[2:0] INIT = 3'd0, WRITE = 3'd1, DONE = 3'd2, RDBUF = 3'd3,
 		WAIT_FF = 3'd4, WRBUF = 3'd5, VALID = 3'd6, WAIT_REQ = 3'd7;
-	rom img_data (.clock(clk), .address(addr), .rden(rden_rom), .q(rom_out));
+	rom lena_data (.clock(clk), .address(addr), .rden(rden_rom & img_en[0]), .q(rom0_out));
+	rom1 pepper_data (.clock(clk), .address(addr), .rden(rden_rom & img_en[1]), .q(rom1_out));
+	rom2 baboon_data (.clock(clk), .address(addr), .rden(rden_rom & img_en[2]), .q(rom2_out));
 	
 	//ROM_out is third row
 	fifo row2 (.clock(clk), 
@@ -53,12 +57,12 @@ module fifo_rom_v2 (clk, rst, init_buff, rden_rom, rden_fifo2, gen_req,
 				if (fullrow2) next_state = DONE;
 				else next_state = WRITE;
 			end
-			DONE: next_state = (gen_req) ? (RDBUF) : (DONE);
+			DONE: next_state = (gen_req) ? RDBUF : DONE;
 			RDBUF: next_state = WAIT_FF;
 			WAIT_FF: next_state = WRBUF;
 			WRBUF: next_state = VALID;
 			VALID: next_state = WAIT_REQ;
-			WAIT_REQ: next_state = (gen_req) ? (RDBUF) : (WAIT_REQ);
+			WAIT_REQ: next_state = (gen_req) ? RDBUF : WAIT_REQ;
 			default: next_state = INIT;
 		endcase
 	end
@@ -150,6 +154,7 @@ module fifo_rom_v2 (clk, rst, init_buff, rden_rom, rden_fifo2, gen_req,
 			INIT: begin
 				wrcount <= 2'd0;
 				addr <= 16'd0;
+				img_sel_reg <= img_sel;
 			end
 			WRITE: begin
 				if (wrcount < 2'd3)
@@ -186,4 +191,6 @@ module fifo_rom_v2 (clk, rst, init_buff, rden_rom, rden_fifo2, gen_req,
 	end
 
 	assign done_init_buf = (state == DONE) ? (1'b1) : (1'b0);
+	assign img_en = (img_sel_reg[1]) ? (3'b100) : (img_sel_reg[0]) ? (3'b010) : (3'b001);
+	assign rom_out = (img_sel_reg[1]) ? (rom2_out) : (img_sel_reg[0]) ? (rom1_out) : (rom0_out);
 endmodule

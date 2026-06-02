@@ -4,10 +4,10 @@ module median_filter(clk, rst, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5,
 	input[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9;
 	output done_filt;
 	output[DATA_WIDTH-1:0] new_pix;
-	reg[DATA_WIDTH-1:0] a11, a12, a13, a21, a22, a23, a31, a32, a33;
+	reg[DATA_WIDTH-1:0] a11, a12, a13, a21, a22, a23, a31, a32, a33, a22_i;
 	wire done_filt;
 	wire[DATA_WIDTH-1:0] new_pix;
-	reg[3:0] state, next_state;
+	reg[3:0] state=4'd0, next_state;
 	localparam[3:0] WAIT_GEN = 4'd0, S1 = 4'd1, S2 = 4'd2, S3 = 4'd3, S4 = 4'd4, S5 = 4'd5, S6 = 4'd6, S7 = 4'd7, 
 		S8 = 4'd8, S9 = 4'd9, S10 = 4'd10, DONE = 4'd11; 
 	
@@ -43,6 +43,7 @@ module median_filter(clk, rst, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5,
 				a31 <= p7;
 				a32 <= p8;
 				a33 <= p9;
+				a22_i <= p5;
 			end
 			S1: begin
 				if (a11 > a23) begin
@@ -174,7 +175,7 @@ module median_filter(clk, rst, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5,
 	end
 
 	// Median filter output, finish filtering signal
-	assign new_pix = a22;
+	assign new_pix = (a22_i == 8'd0 || a22_i == 8'd255) ? a22 : a22_i;
 	assign done_filt = (state == DONE) ? (1'b1) : (1'b0);
 endmodule
 

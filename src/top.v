@@ -1,12 +1,13 @@
-module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N, new_pix_ff, done_filt_ff, rst_valid, seg1, seg2, seg3, seg4, seg5, seg6);
+module top(clk, rst, img_sel, outclk_150, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N, new_pix_ff, done_filt_ff, seg1, seg2, seg3, seg4, seg5, seg6);
 	`include "parameters.vh"
-	input clk, rst_sync;
-	output done_filt_ff, rst_valid, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N, VGA_CLK;
+	input clk, rst;
+	input[1:0] img_sel;
+	output done_filt_ff, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N, VGA_CLK, outclk_150;
 	reg done_filt_ff=0;
 	output[7:0] VGA_R, VGA_G, VGA_B;
 	output[DATA_WIDTH-1:0] new_pix_ff, seg1, seg2, seg3, seg4, seg5, seg6;
 	reg[DATA_WIDTH-1:0] new_pix_ff=0;
-	wire outclk_25, outclk_100, rst, gen_req, done_init_buf, data_valid, rden_rom, rden_fifo2, done_filt, done_gen, rd_clken;
+	wire outclk_25, outclk_150, gen_req, done_init_buf, data_valid, rden_rom, rden_fifo2, done_filt, done_gen, rd_clken;
 	wire[DATA_WIDTH-1:0] rom_out_ff, fifo2_out_ff, fifo1_out_ff, new_pix, col,
 	p1, p2, p3, p4, p5, p6, p7, p8, p9, vga_out;
 	wire[DATA_WIDTH:0] row;
@@ -21,21 +22,22 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLAN
 	PLL_cyc	PLL_inst (
 		.refclk ( clk ),
 		.rst(1'b0),
-		.outclk_0 ( outclk_100 ),
+		.outclk_0 ( outclk_150 ),
 		.outclk_1 ( outclk_25 )
 	);
 
 	// Switch debouncing for reset signal, only valid if high for 8ms
-	rst_debounce rst_gen (
-		.clk(outclk_100), 
-		.rst_sync(rst_sync),
-		.rst(rst)
-	);
+	//rst_debounce rst_gen (
+	//	.clk(outclk_150), 
+	//	.rst_sync(rst_sync),
+	//	.rst(rst)
+	//);
 
 	// ROM and row buffers generation for image data
 	fifo_rom_v2 memory_buffer (
-		.clk(outclk_100), 
+		.clk(outclk_150), 
 		.rst(rst),
+		.img_sel(img_sel),
 		.init_buff(init_buff), 
 		.gen_req(gen_req),
 		.rden_rom(rden_rom), 
@@ -50,7 +52,7 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLAN
 	// Window generation from row buffers and ROM
 	win_gen window_generation (.gen_ready(done_init_buf), 
 		.gen_req(gen_req), 
-		.clk(outclk_100), 
+		.clk(outclk_150), 
 		.rst(rst),
 		.rden_rom(rden_rom), 
 		.rden_fifo2(rden_fifo2), 
@@ -68,7 +70,7 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLAN
 	// Image filters
 	`ifdef DUMMY_FILTER
 		dummy_filter filter_module (
-			.clk(outclk_100), 
+			.clk(outclk_150), 
 			.rst(rst), 
 			.done_gen(done_gen), 
 			.p1(p1), .p2(p2), .p3(p3), .p4(p4), .p5(p5), .p6(p6), .p7(p7), .p8(p8), .p9(p9),
@@ -79,7 +81,7 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLAN
 	
 	`ifdef MEDIAN_FILTER
 		median_filter filter_module (
-			.clk(outclk_100), 
+			.clk(outclk_150), 
 			.rst(rst), 
 			.done_gen(done_gen), 
 			.p1(p1), .p2(p2), .p3(p3), .p4(p4), .p5(p5), .p6(p6), .p7(p7), .p8(p8), .p9(p9),
@@ -90,7 +92,7 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLAN
 
 	`ifdef MEAN_FILTER
 		mean_filter filter_module (
-			.clk(outclk_100), 
+			.clk(outclk_150), 
 			.rst(rst), 
 			.done_gen(done_gen), 
 			.p1(p1), .p2(p2), .p3(p3), .p4(p4), .p5(p5), .p6(p6), .p7(p7), .p8(p8), .p9(p9),
@@ -101,7 +103,7 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLAN
 	
 	`ifdef BILATERAL_FILTER
 		bilateral_filter filter_module (
-			.clk(outclk_100), 
+			.clk(outclk_150), 
 			.rst(rst), 
 			.done_gen(done_gen),
 			.p1(p1), .p2(p2), .p3(p3), .p4(p4), .p5(p5), .p6(p6), .p7(p7), .p8(p8), .p9(p9),
@@ -117,7 +119,7 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLAN
 		.rdclock ( outclk_25 ),
 		.rdclocken ( rd_clken ),
 		.wraddress ( wr_addr ),
-		.wrclock ( outclk_100 ),
+		.wrclock ( outclk_150 ),
 		.wren ( done_filt_ff ),
 		.q ( vga_out )
 	);
@@ -139,7 +141,7 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLAN
 		.rd_addr(rd_addr)
 	);
 	
-	always @(posedge outclk_100) begin
+	always @(posedge outclk_150) begin
 		if (rst) begin
 			init_buff <= 1'b0;
 			initial_delay <= 4'd0;
@@ -150,6 +152,7 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLAN
 		else if (initial_delay < 4'd7) begin
 			init_buff <= 1'b0;
 			initial_delay <= initial_delay + 1'b1;
+			done_filt_ff <= 1'b0;
 		end
 		else begin
 			wr_addr <= (done_filt_ff) ? wr_addr + 1'b1 : wr_addr;
@@ -157,6 +160,7 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLAN
 			new_pix_ff <= new_pix;
 			init_buff <= (initial_delay == 4'd15) ? 1'b0 : 1'b1;
 			initial_delay <= (initial_delay == 4'd15) ? initial_delay : initial_delay + 1'b1;
+			
 		end
 	end
 	
@@ -296,6 +300,5 @@ module top(clk, rst_sync, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLAN
 	assign seg4 = seg4_wire;
 	assign seg5 = seg5_wire;
 	assign seg6 = seg6_wire;
-	assign rst_valid = rst;
 endmodule
 

@@ -1,33 +1,69 @@
 `timescale 1ns/1ps
 module wingen_test;
-	reg clk, rst_sync, clk_100;
+	`include "parameters.vh"
+	reg clk, rst;
+	reg[1:0] img_sel;
 	reg[16:0] pix_count;
-	wire done_filt, rst, VGA_HS, VGA_VS, VGA_SYNC, VGA_BLANK, VGA_CLK;
+	wire done_filt, VGA_HS, VGA_VS, VGA_SYNC, VGA_BLANK, VGA_CLK, outclk_150;
 	wire[7:0] VGA_R, VGA_G, VGA_B;
 	wire[7:0] centre_pix;
-	integer f;
+	integer f0, f1, f2;
 
 	initial begin
-		f = $fopen("new_pix.txt", "w");
-		$stop;
+		f0 = $fopen("new_pix.txt", "w");
+		f1 = $fopen("new_pix2.txt", "w");
+		f2 = $fopen("new_pix3.txt", "w");
 		clk = 1'b0;
-		clk_100 = 1'b0;
 		pix_count = 1'b0;
-		rst_sync = 1'b0;
+		rst = 1'b0;
+		img_sel = 2'd0;
+		`ifdef MEDIAN_FILTER
+			 #8_000_000
+		`endif
+		`ifdef MEAN_FILTER
+			#6_000_000
+		`endif
+		`ifdef BILATERAL_FILTER
+			#20_000_000
+		`endif
+		img_sel = 2'd1;
+		rst = 1'b1;
 		#1000
-		//rst_sync = 1'b1;
-		#15_000_000
-		//f = $fopen("new_pix.txt", "w");
-		rst_sync = 1'b0;
+		rst = 1'b0;
+		`ifdef MEDIAN_FILTER
+			#8_000_000
+		`endif
+		`ifdef MEAN_FILTER
+			#6_000_000
+		`endif
+		`ifdef BILATERAL_FILTER
+			#20_000_000
+		`endif
+		img_sel = 2'd2;
+		rst = 1'b1;
+		#1000;
+		rst = 1'b0;
+		`ifdef MEDIAN_FILTER
+			 #8_000_000
+		`endif
+		`ifdef MEAN_FILTER
+			#6_000_000
+		`endif
+		`ifdef BILATERAL_FILTER
+			#20_000_000
+		`endif
+		$fclose(f0);
+		$fclose(f1);
+		$fclose(f2);
+		$finish;
 	end
 
 	always #10 clk = ~clk;
-	always #5 clk_100 = ~clk_100;
-	top DUT (.clk(clk), 
-		.rst_sync(rst_sync), 
+	top DUT_0 (.clk(clk), 
+		.rst(rst), 
 		.new_pix_ff(centre_pix), 
 		.done_filt_ff(done_filt), 
-		.rst_valid(rst),
+		.img_sel(img_sel),
 		.VGA_R(VGA_R),
 		.VGA_G(VGA_G),
 		.VGA_B(VGA_B),
@@ -36,6 +72,7 @@ module wingen_test;
 		.VGA_SYNC_N(VGA_SYNC),
 		.VGA_BLANK_N(VGA_BLANK),
 		.VGA_CLK(VGA_CLK),
+		.outclk_150(outclk_150),
 		.seg1(),
 		.seg2(),
 		.seg3(),
@@ -44,9 +81,14 @@ module wingen_test;
 		.seg6()
 	);
 	
-	always @(posedge clk_100) begin
+	always @(posedge outclk_150) begin
 		if (done_filt) begin
-			$fwrite(f, "%h\n", centre_pix);
+			if (img_sel == 2'd0)
+				$fwrite(f0, "%h\n", centre_pix);
+			else if (img_sel == 2'd1)
+				$fwrite(f1, "%h\n", centre_pix);
+			else if (img_sel == 2'd2)
+				$fwrite(f2, "%h\n", centre_pix);
 			pix_count <= pix_count + 1'b1;
 		end
 		if (rst) begin
@@ -54,11 +96,5 @@ module wingen_test;
 		end
 	end
 	
-	always @(*) begin
-		if (pix_count > 17'd65535) begin
-			$fclose(f);
-			$finish;
-		end
-	end
 endmodule
 

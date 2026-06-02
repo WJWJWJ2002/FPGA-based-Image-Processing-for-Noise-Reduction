@@ -6,7 +6,8 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, data_valid,
 	input clk, rst, gen_ready, done_filt, data_valid; //gen_ready = done_init_buf
 	input[DATA_WIDTH-1:0] row1_out_ff, row2_out_ff, rom_out_ff;
 	output gen_req, done_gen, rden_rom, rden_fifo2;
-	output[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9, row, col;
+	output[DATA_WIDTH-1:0] p1, p2, p3, p4, p5, p6, p7, p8, p9, col;
+	output[DATA_WIDTH:0] row;
 	wire done_gen, rden_rom, rden_fifo2;
 	reg gen_req;
 	reg[1:0] counter;
@@ -24,7 +25,7 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, data_valid,
 			WAITBUF: next_state = (data_valid || (col == 8'd0 && counter == 2'd0) || 
 				(col == MAX_COL && counter == 2'd2)) ? (REQBUF) : (WAITBUF);
 			REQBUF: next_state = (counter < 2'd2) ? (WAITBUF) : (DONE_GEN);
-			DONE_GEN: next_state = (row == MAX_ROW + 1) ? WAIT_INIT : WAIT_FILT;
+			DONE_GEN: next_state = (row == MAX_COL && col == MAX_COL) ? WAIT_INIT : WAIT_FILT;
 			WAIT_FILT: next_state = (done_filt) ? ((col == 8'd0) ? (INITREQ) : (REQBUF)) : (WAIT_FILT);
 			default: next_state = WAIT_INIT;
 		endcase
@@ -121,7 +122,7 @@ module win_gen(gen_ready, gen_req, done_gen, done_filt, data_valid,
 	end
 
 	// ROM read-enable and window generation finish signals output logic
-	assign rden_fifo2 = (row == 8'd0) ? (1'b0) : (1'b1);
+	assign rden_fifo2 = (row == 9'd0) ? (1'b0) : (1'b1);
 	assign rden_rom = (row == MAX_ROW) ? (1'b0) : (1'b1);
 	assign done_gen = (state == DONE_GEN) ? (1'b1) : (1'b0);
 
