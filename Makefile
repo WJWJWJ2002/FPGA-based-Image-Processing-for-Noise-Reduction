@@ -82,4 +82,4 @@ noise_div:
 	python3 py_script/noise_div.py ${WORKAREA}/3x3_windows/py_script/images ${IUT}.bmp
 
 eval:	
-	python3 py_script/psnr_calc.py ${WORKAREA}/3x3_windows/ ${snp_density}
+	python3 py_script/psnr_calc.py ${WORKAREA}/3x3_windows/ ${snp_density} ${STYLE}
