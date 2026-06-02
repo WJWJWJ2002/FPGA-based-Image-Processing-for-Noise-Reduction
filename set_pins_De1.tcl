@@ -1,6 +1,8 @@
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to done_filt_ff
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to rst_sync
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to rst
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to img_sel[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to img_sel[1]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[7]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[6]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[5]
@@ -81,7 +83,9 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_CLK
 
 set_location_assignment PIN_AF14 -to clk
 set_location_assignment PIN_V16 -to done_filt_ff
-set_location_assignment PIN_AB12 -to rst_sync
+set_location_assignment PIN_AB12 -to rst
+set_location_assignment PIN_AC12 -to img_sel[0]
+set_location_assignment PIN_AF9 -to img_sel[1]
 set_location_assignment PIN_F13 -to VGA_R[7]
 set_location_assignment PIN_E12 -to VGA_R[6]
 set_location_assignment PIN_D12 -to VGA_R[5]
