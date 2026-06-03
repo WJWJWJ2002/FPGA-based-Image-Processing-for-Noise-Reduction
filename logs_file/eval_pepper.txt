@@ -1,0 +1,105 @@
+--------------- Noisy image information ---------------
+Salt and Pepper: PSNR = 15.325       SSIM = 0.462
+Gaussian Noise: PSNR = 16.438     SSIM = 0.144
+Poisson Noise: PSNR = 16.644     SSIM = 0.17
+
+------- PSNR of denoised images -------
+Mean Filter: [23.329, 24.538, 24.675]
+Median Filter: [37.32, 16.766, 17.133]
+Bilateral Filter: [16.868, 19.216, 19.477]
+
+------- MSE of denoised images ------- 
+Mean Filter: [302.14, 228.734, 221.6]
+Median Filter: [12.053, 1369.398, 1258.355]
+Bilateral Filter: [1337.374, 778.921, 733.431]
+
+------- SSIM of denoised images ------- 
+Mean Filter: [0.503, 0.522, 0.548]
+Median Filter: [0.987, 0.15, 0.18]
+Bilateral Filter: [0.462, 0.218, 0.255]
+
+
+--------------- Noisy image information ---------------
+Salt and Pepper: PSNR = 13.556       SSIM = 0.311
+Gaussian Noise: PSNR = 16.438     SSIM = 0.144
+Poisson Noise: PSNR = 16.644     SSIM = 0.17
+
+------- PSNR of denoised images -------
+Mean Filter: [21.617, 24.538, 24.675]
+Median Filter: [31.978, 16.766, 17.133]
+Bilateral Filter: [15.056, 19.216, 19.477]
+
+------- MSE of denoised images ------- 
+Mean Filter: [448.143, 228.734, 221.6]
+Median Filter: [41.235, 1369.398, 1258.355]
+Bilateral Filter: [2029.909, 778.921, 733.431]
+
+------- SSIM of denoised images ------- 
+Mean Filter: [0.408, 0.522, 0.548]
+Median Filter: [0.973, 0.15, 0.18]
+Bilateral Filter: [0.318, 0.218, 0.255]
+
+
+--------------- Noisy image information ---------------
+Salt and Pepper: PSNR = 12.286       SSIM = 0.217
+Gaussian Noise: PSNR = 16.438     SSIM = 0.144
+Poisson Noise: PSNR = 16.644     SSIM = 0.17
+
+------- PSNR of denoised images -------
+Mean Filter: [20.288, 24.538, 24.675]
+Median Filter: [29.068, 16.766, 17.133]
+Bilateral Filter: [13.756, 19.216, 19.477]
+
+------- MSE of denoised images ------- 
+Mean Filter: [608.556, 228.734, 221.6]
+Median Filter: [80.586, 1369.398, 1258.355]
+Bilateral Filter: [2738.38, 778.921, 733.431]
+
+------- SSIM of denoised images ------- 
+Mean Filter: [0.34, 0.522, 0.548]
+Median Filter: [0.952, 0.15, 0.18]
+Bilateral Filter: [0.228, 0.218, 0.255]
+
+
+--------------- Noisy image information ---------------
+Salt and Pepper: PSNR = 11.315       SSIM = 0.147
+Gaussian Noise: PSNR = 16.438     SSIM = 0.144
+Poisson Noise: PSNR = 16.644     SSIM = 0.17
+
+------- PSNR of denoised images -------
+Mean Filter: [19.251, 24.538, 24.675]
+Median Filter: [26.217, 16.766, 17.133]
+Bilateral Filter: [12.755, 19.216, 19.477]
+
+------- MSE of denoised images ------- 
+Mean Filter: [772.584, 228.734, 221.6]
+Median Filter: [155.362, 1369.398, 1258.355]
+Bilateral Filter: [3448.316, 778.921, 733.431]
+
+------- SSIM of denoised images ------- 
+Mean Filter: [0.297, 0.522, 0.548]
+Median Filter: [0.925, 0.15, 0.18]
+Bilateral Filter: [0.162, 0.218, 0.255]
+
+
+--------------- Noisy image information ---------------
+Salt and Pepper: PSNR = 10.555       SSIM = 0.103
+Gaussian Noise: PSNR = 16.438     SSIM = 0.144
+Poisson Noise: PSNR = 16.644     SSIM = 0.17
+
+------- PSNR of denoised images -------
+Mean Filter: [18.469, 24.538, 24.675]
+Median Filter: [23.899, 16.766, 17.133]
+Bilateral Filter: [11.979, 19.216, 19.477]
+
+------- MSE of denoised images ------- 
+Mean Filter: [925.112, 228.734, 221.6]
+Median Filter: [264.989, 1369.398, 1258.355]
+Bilateral Filter: [4122.253, 778.921, 733.431]
+
+------- SSIM of denoised images ------- 
+Mean Filter: [0.259, 0.522, 0.548]
+Median Filter: [0.885, 0.15, 0.18]
+Bilateral Filter: [0.118, 0.218, 0.255]
+
+
