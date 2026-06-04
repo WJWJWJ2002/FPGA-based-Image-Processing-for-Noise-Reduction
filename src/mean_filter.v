@@ -20,15 +20,13 @@ module mean_filter(clk, rst, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p
 			S1: next_state = S2;
 			S2: next_state = S3;
 			S3: next_state = S4;
-			S4: next_state = (div_delay < 3'd3) ? S4 : DONE;
+			S4: next_state = DONE;
 			DONE: next_state = WAIT_GEN;
 			default: next_state = WAIT_GEN;
 		endcase
 	end
 			
 	Divider	Divider_inst (
-		.clken ( en_div ),
-		.clock ( clk ),
 		.denom ( 4'd9 ),
 		.numer ( sum6 ),
 		.quotient ( mean_pix ),
@@ -63,10 +61,9 @@ module mean_filter(clk, rst, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p
 				sum6 <= sum4 + sum5 + a22;
 			end
 			S4: begin
-				div_delay <= div_delay + 1'b1;
+				mean_pix_ff <= mean_pix;
 			end
 			DONE: begin
-				div_delay <= 3'd0;
 			end
 			default: begin
 			end
@@ -76,11 +73,9 @@ module mean_filter(clk, rst, done_gen, done_filt, new_pix, p1, p2, p3, p4, p5, p
 	always @(posedge clk) begin
 		if (rst) begin
 			state <= WAIT_GEN;
-			mean_pix_ff <= 8'd0;
 		end
 		else begin
 			state <= next_state;
-			mean_pix_ff <= mean_pix;
 		end
 	end
 	
