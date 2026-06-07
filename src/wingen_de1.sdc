@@ -82,6 +82,8 @@ set_clock_uncertainty -fall_from [get_clocks {outclk_150}] -fall_to [get_clocks 
 # Set Input Delay
 #**************************************************************
 
+set_input_delay -add_delay -max -clock [get_clocks {outclk_150}]  2.000 [get_ports {rst}]
+set_input_delay -add_delay -min -clock [get_clocks {outclk_150}]  1.500 [get_ports {rst}]
 set_input_delay -add_delay -max -clock [get_clocks {outclk_150}]  2.000 [get_ports {img_sel[0]}]
 set_input_delay -add_delay -min -clock [get_clocks {outclk_150}]  1.500 [get_ports {img_sel[0]}]
 set_input_delay -add_delay -max -clock [get_clocks {outclk_150}]  2.000 [get_ports {img_sel[1]}]
