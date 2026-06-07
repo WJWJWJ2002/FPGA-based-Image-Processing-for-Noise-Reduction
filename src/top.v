@@ -1,11 +1,11 @@
-module top(clk, rst, img_sel, outclk_150, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N, new_pix_ff, done_filt_ff, seg1, seg2, seg3, seg4, seg5, seg6);
+module top(clk, rst, img_sel, outclk_150, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N, new_pix_ff, done_filt_ff, seg1, seg2, seg3);
 	`include "parameters.vh"
 	input clk, rst;
 	input[1:0] img_sel;
 	output done_filt_ff, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N, VGA_CLK, outclk_150;
 	reg done_filt_ff=0;
 	output[7:0] VGA_R, VGA_G, VGA_B;
-	output[DATA_WIDTH-1:0] new_pix_ff, seg1, seg2, seg3, seg4, seg5, seg6;
+	output[DATA_WIDTH-1:0] new_pix_ff, seg1, seg2, seg3;
 	reg[DATA_WIDTH-1:0] new_pix_ff=0;
 	wire outclk_25, outclk_150, gen_req, done_init_buf, data_valid, rden_rom, rden_fifo2, done_filt, done_gen, rd_clken;
 	wire[DATA_WIDTH-1:0] rom_out_ff, fifo2_out_ff, fifo1_out_ff, new_pix, col,
@@ -209,87 +209,12 @@ module top(clk, rst, img_sel, outclk_150, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, 
 	end
 
 	always @(*) begin
-		case (col[3:0]) 
-			4'd0: seg3_wire = 8'hc0;
-			4'd1: seg3_wire = 8'hf9;
-			4'd2: seg3_wire = 8'ha4;
-			4'd3: seg3_wire = 8'hb0;
-			4'd4: seg3_wire = 8'h99;
-			4'd5: seg3_wire = 8'h92;
-			4'd6: seg3_wire = 8'h82;
-			4'd7: seg3_wire = 8'hf8;
-			4'd8: seg3_wire = 8'h80;
-			4'd9: seg3_wire = 8'h98;
-			4'd10: seg3_wire = 8'h88;
-			4'd11: seg3_wire = 8'h83;
-			4'd12: seg3_wire = 8'hc6;
-			4'd13: seg3_wire = 8'ha1;
-			4'd14: seg3_wire = 8'h86;
-			4'd15: seg3_wire = 8'h8e;
+		case (img_sel) 
+			2'd0: seg3_wire = 8'hf9;
+			2'd1: seg3_wire = 8'ha4;
+			2'd2: seg3_wire = 8'hb0;
+			2'd3: seg3_wire = 8'hb0;
 			default: seg3_wire = 8'hff;
-		endcase
-	end
-	always @(*) begin
-		case (col[7:4]) 
-			4'd0: seg4_wire = 8'hc0;
-			4'd1: seg4_wire = 8'hf9;
-			4'd2: seg4_wire = 8'ha4;
-			4'd3: seg4_wire = 8'hb0;
-			4'd4: seg4_wire = 8'h99;
-			4'd5: seg4_wire = 8'h92;
-			4'd6: seg4_wire = 8'h82;
-			4'd7: seg4_wire = 8'hf8;
-			4'd8: seg4_wire = 8'h80;
-			4'd9: seg4_wire = 8'h98;
-			4'd10: seg4_wire = 8'h88;
-			4'd11: seg4_wire = 8'h83;
-			4'd12: seg4_wire = 8'hc6;
-			4'd13: seg4_wire = 8'ha1;
-			4'd14: seg4_wire = 8'h86;
-			4'd15: seg4_wire = 8'h8e;
-			default: seg4_wire = 8'hff;
-		endcase
-	end
-	always @(*) begin
-		case (row[3:0]) 
-			4'd0: seg5_wire = 8'hc0;
-			4'd1: seg5_wire = 8'hf9;
-			4'd2: seg5_wire = 8'ha4;
-			4'd3: seg5_wire = 8'hb0;
-			4'd4: seg5_wire = 8'h99;
-			4'd5: seg5_wire = 8'h92;
-			4'd6: seg5_wire = 8'h82;
-			4'd7: seg5_wire = 8'hf8;
-			4'd8: seg5_wire = 8'h80;
-			4'd9: seg5_wire = 8'h98;
-			4'd10: seg5_wire = 8'h88;
-			4'd11: seg5_wire = 8'h83;
-			4'd12: seg5_wire = 8'hc6;
-			4'd13: seg5_wire = 8'ha1;
-			4'd14: seg5_wire = 8'h86;
-			4'd15: seg5_wire = 8'h8e;
-			default: seg5_wire = 8'hff;
-		endcase
-	end
-	always @(*) begin
-		case (row[7:4]) 
-			4'd0: seg6_wire = 8'hc0;
-			4'd1: seg6_wire = 8'hf9;
-			4'd2: seg6_wire = 8'ha4;
-			4'd3: seg6_wire = 8'hb0;
-			4'd4: seg6_wire = 8'h99;
-			4'd5: seg6_wire = 8'h92;
-			4'd6: seg6_wire = 8'h82;
-			4'd7: seg6_wire = 8'hf8;
-			4'd8: seg6_wire = 8'h80;
-			4'd9: seg6_wire = 8'h98;
-			4'd10: seg6_wire = 8'h88;
-			4'd11: seg6_wire = 8'h83;
-			4'd12: seg6_wire = 8'hc6;
-			4'd13: seg6_wire = 8'ha1;
-			4'd14: seg6_wire = 8'h86;
-			4'd15: seg6_wire = 8'h8e;
-			default: seg6_wire = 8'hff;
 		endcase
 	end
 
@@ -297,8 +222,5 @@ module top(clk, rst, img_sel, outclk_150, VGA_R, VGA_G, VGA_B, VGA_CLK, VGA_HS, 
 	assign seg1 = seg1_wire;
 	assign seg2 = seg2_wire;
 	assign seg3 = seg3_wire;
-	assign seg4 = seg4_wire;
-	assign seg5 = seg5_wire;
-	assign seg6 = seg6_wire;
 endmodule
 
