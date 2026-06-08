@@ -76,7 +76,7 @@ module wingen_test;
 		.outclk_150(outclk_150),
 		.seg1(),
 		.seg2(),
-		.seg3(),
+		.seg3()
 	);
 	
 	always @(posedge outclk_150) begin
