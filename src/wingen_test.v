@@ -10,6 +10,7 @@ module wingen_test;
 	integer f0, f1, f2;
 
 	initial begin
+		$stop;
 		f0 = $fopen("new_pix.txt", "w");
 		f1 = $fopen("new_pix2.txt", "w");
 		f2 = $fopen("new_pix3.txt", "w");
@@ -76,9 +77,6 @@ module wingen_test;
 		.seg1(),
 		.seg2(),
 		.seg3(),
-		.seg4(),
-		.seg5(),
-		.seg6()
 	);
 	
 	always @(posedge outclk_150) begin
