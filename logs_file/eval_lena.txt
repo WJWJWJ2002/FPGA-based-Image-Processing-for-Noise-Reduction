@@ -6,12 +6,12 @@ Poisson Noise: PSNR = 16.509     SSIM = 0.195
 ------- PSNR of denoised images -------
 Mean Filter: [22.205, 22.97, 23.039]
 Median Filter: [34.134, 16.653, 16.922]
-Bilateral Filter: [17.032, 19.032, 19.28]
+Bilateral Filter: [17.032, 19.004, 19.211]
 
 ------- MSE of denoised images ------- 
 Mean Filter: [391.377, 328.172, 323.011]
 Median Filter: [25.102, 1405.255, 1321.076]
-Bilateral Filter: [1287.756, 812.551, 767.522]
+Bilateral Filter: [1287.756, 817.928, 779.868]
 
 ------- SSIM of denoised images ------- 
 Mean Filter: [0.42, 0.444, 0.452]
@@ -27,12 +27,12 @@ Poisson Noise: PSNR = 16.509     SSIM = 0.195
 ------- PSNR of denoised images -------
 Mean Filter: [20.964, 22.97, 23.039]
 Median Filter: [30.694, 16.653, 16.922]
-Bilateral Filter: [15.241, 19.032, 19.28]
+Bilateral Filter: [15.241, 19.004, 19.211]
 
 ------- MSE of denoised images ------- 
 Mean Filter: [520.853, 328.172, 323.011]
 Median Filter: [55.42, 1405.255, 1321.076]
-Bilateral Filter: [1945.333, 812.551, 767.522]
+Bilateral Filter: [1945.333, 817.928, 779.868]
 
 ------- SSIM of denoised images ------- 
 Mean Filter: [0.348, 0.444, 0.452]
@@ -48,12 +48,12 @@ Poisson Noise: PSNR = 16.509     SSIM = 0.195
 ------- PSNR of denoised images -------
 Mean Filter: [19.918, 22.97, 23.039]
 Median Filter: [28.022, 16.653, 16.922]
-Bilateral Filter: [13.988, 19.032, 19.28]
+Bilateral Filter: [13.988, 19.004, 19.211]
 
 ------- MSE of denoised images ------- 
 Mean Filter: [662.579, 328.172, 323.011]
 Median Filter: [102.533, 1405.255, 1321.076]
-Bilateral Filter: [2596.02, 812.551, 767.522]
+Bilateral Filter: [2596.02, 817.928, 779.868]
 
 ------- SSIM of denoised images ------- 
 Mean Filter: [0.289, 0.444, 0.452]
@@ -69,12 +69,12 @@ Poisson Noise: PSNR = 16.509     SSIM = 0.195
 ------- PSNR of denoised images -------
 Mean Filter: [19.033, 22.97, 23.039]
 Median Filter: [25.325, 16.653, 16.922]
-Bilateral Filter: [12.944, 19.032, 19.28]
+Bilateral Filter: [12.944, 19.004, 19.211]
 
 ------- MSE of denoised images ------- 
 Mean Filter: [812.344, 328.172, 323.011]
 Median Filter: [190.794, 1405.255, 1321.076]
-Bilateral Filter: [3301.214, 812.551, 767.522]
+Bilateral Filter: [3301.214, 817.928, 779.868]
 
 ------- SSIM of denoised images ------- 
 Mean Filter: [0.258, 0.444, 0.452]
@@ -90,16 +90,16 @@ Poisson Noise: PSNR = 16.509     SSIM = 0.195
 ------- PSNR of denoised images -------
 Mean Filter: [18.194, 22.97, 23.039]
 Median Filter: [22.944, 16.653, 16.922]
-Bilateral Filter: [12.125, 19.032, 19.28]
+Bilateral Filter: [11.954, 19.004, 19.211]
 
 ------- MSE of denoised images ------- 
 Mean Filter: [985.457, 328.172, 323.011]
 Median Filter: [330.112, 1405.255, 1321.076]
-Bilateral Filter: [3986.464, 812.551, 767.522]
+Bilateral Filter: [4146.095, 817.928, 779.868]
 
 ------- SSIM of denoised images ------- 
 Mean Filter: [0.223, 0.444, 0.452]
 Median Filter: [0.845, 0.178, 0.196]
-Bilateral Filter: [0.128, 0.243, 0.268]
+Bilateral Filter: [0.13, 0.243, 0.268]
 
 
